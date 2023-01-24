@@ -43,6 +43,7 @@ public class MovingPawn : MonoBehaviour
                 Debug.Log("currCol and move.y = " + currCol + " " +  move.y);
                 Debug.Log("target col = " + col);
                 if(currCol + move.y == col){
+                    onMove();
                     Debug.Log("Successfully found path");
                     return true;
                 }

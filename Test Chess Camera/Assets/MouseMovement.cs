@@ -11,10 +11,15 @@ public class MouseMovement : MonoBehaviour
     }
 
     void OnMouseOver(){
-        //Debug.Log("Over an Object");
         objMaterial.color = Color.blue;
     }
     void OnMouseExit(){
         objMaterial.color = Color.white;
     }
+
+    void OnMouseDown()
+    {
+        Debug.Log("clicked");
+    }
+
 }

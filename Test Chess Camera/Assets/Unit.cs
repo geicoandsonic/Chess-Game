@@ -83,8 +83,9 @@ public class Unit : MonoBehaviour
         if(pawnUnit.attemptMovement(x,y,row,col)){
             row = tile.GetComponent<ChessTile>().row;
             col = tile.GetComponent<ChessTile>().colNum;
+            Debug.Log("Unit col" + col);
             tile.GetComponent<ChessTile>().occupant = this;
-            gameObject.transform.position = new Vector3(1.5f * row - 1, 0, -1.5f * col);
+            gameObject.transform.position = new Vector3(1.5f * row, 0, -1.5f * col);
             return true;
         }
         else{

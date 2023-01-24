@@ -2851,7 +2851,7 @@ GameObject:
   - component: {fileID: 506564490}
   - component: {fileID: 506564489}
   m_Layer: 0
-  m_Name: chessTile (1)
+  m_Name: chessTile (1)Odds Problem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7875,6 +7875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerOneHasPiece: 0
   playerOnePiece: {fileID: 0}
+  tile: {fileID: 0}
 --- !u!4 &1465610856
 Transform:
   m_ObjectHideFlags: 0

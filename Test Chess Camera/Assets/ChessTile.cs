@@ -17,7 +17,8 @@ public class ChessTile : MonoBehaviour
 
     void Start()
     {
-        colNum = (int)column - 97;
+        //colNum = (int)column - 97;
+        //Debug.Log("column " + (int)column);
         objMaterial = GetComponent<Renderer>().material;
 
         board = FindObjectOfType<ChessBoardSetup>();
@@ -43,18 +44,20 @@ public class ChessTile : MonoBehaviour
             if(!gameManager.playerOneHasPiece){ // Player One currently does not have a piece selected
                 gameManager.playerOneHasPiece = true; //Now they do
                 gameManager.playerOnePiece = occupant.GetComponent<Unit>();
+                gameManager.tile = this;
             }
             else{ // Player One has a piece already, so we need to switch them
                 Debug.Log("Switching pieces " + getName());
-                 gameManager.playerOnePiece = occupant.GetComponent<Unit>();             
+                 gameManager.playerOnePiece = occupant.GetComponent<Unit>();   
+                 gameManager.tile = this;
             }
             
         }
         else{ //Tile is empty
             if(gameManager.playerOneHasPiece){
                 Debug.Log("Taking move " + getName());
-                if(gameManager.playerOnePiece.takeMove(row-1,colNum, gameObject)){
-                    //occupant = null;
+                if(gameManager.playerOnePiece.takeMove(row,colNum, gameObject)){
+                    gameManager.tile.occupant = null;
                 }
             }
         }

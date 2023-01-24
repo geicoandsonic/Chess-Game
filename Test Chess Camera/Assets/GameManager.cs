@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public bool playerOneHasPiece;
     public Unit playerOnePiece;
+    public ChessTile tile;
 
     void Awake(){
         playerOneHasPiece = false;

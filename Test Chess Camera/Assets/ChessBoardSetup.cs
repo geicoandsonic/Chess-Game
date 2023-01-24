@@ -34,8 +34,9 @@ public class ChessBoardSetup : MonoBehaviour
                     chessTile.white = true;
                 else chessTile.white = false;
 
-                chessTile.row = i + 1;
+                chessTile.row = i;
                 chessTile.column = (char)(97 + j);
+                chessTile.colNum = j;
 
                 //set board
                 board[i, j] = chessTile;

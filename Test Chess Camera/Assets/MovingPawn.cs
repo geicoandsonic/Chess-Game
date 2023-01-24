@@ -36,7 +36,12 @@ public class MovingPawn : MonoBehaviour
         Debug.Log("Attempting movement");
         foreach(var move in shortMovements){
             Debug.Log("move.x = " + move.x);
+            Debug.Log("currRow and move.x = " + currRow + " " +  move.x);
+            Debug.Log("target row = " + row);
             if(currRow + move.x == row){
+                Debug.Log("move.y = " + move.y);
+                Debug.Log("currCol and move.y = " + currCol + " " +  move.y);
+                Debug.Log("target col = " + col);
                 if(currCol + move.y == col){
                     Debug.Log("Successfully found path");
                     return true;

@@ -36,7 +36,7 @@ public class Unit : MonoBehaviour
 
         //gameObject.transform.parent = null;
         //set position
-        float c = 1.5f * 7;
+        float c = 0;  //1.5f * 7;
         gameObject.transform.position = new Vector3(1.5f * row, 0, -1.5f * col - c);
 
         //add to proper army

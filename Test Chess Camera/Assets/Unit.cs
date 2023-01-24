@@ -11,6 +11,7 @@ public class Unit : MonoBehaviour
     private Piece pieceType;
     private int row, col;
     private Faction faction;
+    public MovingPawn pawnUnit;
 
     public void SetUnit(Piece pieceT, int row, int col, Faction f)
     {
@@ -63,6 +64,33 @@ public class Unit : MonoBehaviour
     public Faction getFaction()
     {
         return faction;
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+    public int getCol(){
+        return col;
+    }
+
+    public void displayMovementOptions(){ //Will eventually display ghost tiles of where player can go
+        
+    }
+
+    public bool takeMove(int x, int y, GameObject tile){
+        pawnUnit = gameObject.transform.GetChild(0).GetComponent<MovingPawn>();
+        if(pawnUnit.attemptMovement(x,y,row,col)){
+            row = tile.GetComponent<ChessTile>().row;
+            col = tile.GetComponent<ChessTile>().colNum;
+            tile.GetComponent<ChessTile>().occupant = this;
+            gameObject.transform.position = new Vector3(1.5f * row - 1, 0, -1.5f * col);
+            return true;
+        }
+        else{
+            Debug.Log("Invalid Movement!");
+        }
+        return false;
     }
     
 }

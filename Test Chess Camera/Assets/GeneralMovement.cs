@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface GeneralMovement
+public class GeneralMovement: MonoBehaviour
 {
     /*SHORT movement: dictates where you can move in limited capacity
      ex: pawn has [0,1] for moving UP 1 square (relative to their start) and 0 across.
@@ -13,7 +13,7 @@ public interface GeneralMovement
      ex: rooks have long movement in [1,0], [0,1], [0,-1], [-1,0]
      bishops have long movement in [1,1], [1,-1], [-1,1], [-1,-1]
      queens have all 8 of these.*/
-    void moveSetup();
+    /*void moveSetup();
 
     void onMove();
 
@@ -25,5 +25,5 @@ public interface GeneralMovement
 
     void removeLongMovement(int x, int y);
 
-    void removeShortMovement(int x, int y);
+    void removeShortMovement(int x, int y);*/
 }

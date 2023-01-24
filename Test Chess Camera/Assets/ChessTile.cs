@@ -6,11 +6,11 @@ public class ChessTile : MonoBehaviour
 {
     public int row;
     public char column;
-    private int colNum;
+    public int colNum;
     public bool white;
 
     public Unit occupant;
-
+    private GameManager gameManager;
     Material objMaterial;
     ChessBoardSetup board;
     Selection selector;
@@ -22,6 +22,7 @@ public class ChessTile : MonoBehaviour
 
         board = FindObjectOfType<ChessBoardSetup>();
         selector = FindObjectOfType<Selection>();
+        gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
     void OnMouseOver()
@@ -33,9 +34,30 @@ public class ChessTile : MonoBehaviour
         selector.resetSelectorPosition();
     }
 
+    // Check tile for what it is, if it has anything and give options on what to do.
     void OnMouseDown()
     {
         Debug.Log("clicked " + getName());
+        if (occupant != null){//We have found a piece
+            //if(occupant.getFaction() == Player Faction) will be used for checking if you have selected your own pieces
+            if(!gameManager.playerOneHasPiece){ // Player One currently does not have a piece selected
+                gameManager.playerOneHasPiece = true; //Now they do
+                gameManager.playerOnePiece = occupant.GetComponent<Unit>();
+            }
+            else{ // Player One has a piece already, so we need to switch them
+                Debug.Log("Switching pieces " + getName());
+                 gameManager.playerOnePiece = occupant.GetComponent<Unit>();             
+            }
+            
+        }
+        else{ //Tile is empty
+            if(gameManager.playerOneHasPiece){
+                Debug.Log("Taking move " + getName());
+                if(gameManager.playerOnePiece.takeMove(row-1,colNum, gameObject)){
+                    //occupant = null;
+                }
+            }
+        }
     }
 
     public string getName()
@@ -46,7 +68,7 @@ public class ChessTile : MonoBehaviour
     public string getOccupantName()
     {
         if (occupant != null)
-        {
+        {            
             return occupant.getFaction() + " " + occupant.ToString();
         }
         else return "No one";

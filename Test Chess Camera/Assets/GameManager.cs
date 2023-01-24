@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public bool playerOneHasPiece;
+    public Unit playerOnePiece;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Awake(){
+        playerOneHasPiece = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public enum gameState

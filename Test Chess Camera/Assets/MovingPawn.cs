@@ -2,10 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingPawn : GeneralMovement
+public class MovingPawn : MonoBehaviour
 {
 
-    private LinkedList<(int, int)> shortMovements;
+    public LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
+    [SerializeField] private GameObject ghostTile;
+
+    void Awake(){
+        ghostTile = GameObject.FindWithTag("ghostTile");
+        moveSetup();
+    }
 
     public void moveSetup()
     {
@@ -20,8 +26,24 @@ public class MovingPawn : GeneralMovement
 
     public LinkedList<ChessTile> getPossibleMoves()
     {
-        //for(int i=0; i<shortMovements.)
+        foreach(var move in shortMovements){
+            //Do this later
+        }
         throw new System.NotImplementedException();
+    }
+
+    public bool attemptMovement(int row, int col, int currRow, int currCol){
+        Debug.Log("Attempting movement");
+        foreach(var move in shortMovements){
+            Debug.Log("move.x = " + move.x);
+            if(currRow + move.x == row){
+                if(currCol + move.y == col){
+                    Debug.Log("Successfully found path");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void addShortMovement(int x, int y)

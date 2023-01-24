@@ -50,9 +50,11 @@ public class ChessBoardSetup : MonoBehaviour
     //STANDARD setup, can change with different gamemodes.
     void initializePieces()
     {
-        //"armies" are just the empty container objects for each player
+        //"armies" are just the empty container objects for each player       
         whiteArmy = new GameObject();
         blackArmy = new GameObject();
+        whiteArmy.name = "whiteArmy";
+        blackArmy.name = "blackArmy";
 
         //in setup phase, just copy a "template" of each piece.
         GameObject templatePawn = basePieces.transform.GetChild(0).gameObject;

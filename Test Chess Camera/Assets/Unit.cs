@@ -11,22 +11,6 @@ public class Unit : MonoBehaviour
     private Piece pieceType;
     private int row, col;
     private Faction faction;
-    
-    /*public Unit(Piece pieceT, GameObject physical, int row, int col, Faction f)
-    {
-        pieceType = pieceT;
-        gameObj = physical;
-        this.row = row; this.col = col;
-        faction = f;
-
-        gameObj.transform.parent = null;
-        //set position
-        gameObj.transform.position = new Vector3(1.5f * row, 0, -1.5f * col);
-
-        //add to proper army
-        if (faction == Faction.WHITE) gameObj.transform.parent = ChessBoardSetup.whiteArmy.transform;
-        if (faction == Faction.BLACK) gameObj.transform.parent = ChessBoardSetup.blackArmy.transform;
-    }*/
 
     public void SetUnit(Piece pieceT, int row, int col, Faction f)
     {
@@ -36,19 +20,26 @@ public class Unit : MonoBehaviour
 
         //gameObject.transform.parent = null;
         //set position
-        float c = 0;  //1.5f * 7;
+        float c = 0;
         gameObject.transform.position = new Vector3(1.5f * row, 0, -1.5f * col - c);
 
         //add to proper army
+        MeshRenderer[] mrs = GetComponentsInChildren<MeshRenderer>();
         if (faction == Faction.WHITE)
         {
             gameObject.transform.parent = ChessBoardSetup.whiteArmy.transform;
-            GetComponentInChildren<MeshRenderer>().material = ChessBoardSetup.whiteColor;
+            foreach(MeshRenderer mr in mrs)
+            {
+                mr.material = ChessBoardSetup.whiteColor;
+            }
         }
         if (faction == Faction.BLACK)
         {
             gameObject.transform.parent = ChessBoardSetup.blackArmy.transform;
-            GetComponentInChildren<MeshRenderer>().material = ChessBoardSetup.blackColor;
+            foreach (MeshRenderer mr in mrs)
+            {
+                mr.material = ChessBoardSetup.blackColor;
+            }
         }
     }
 

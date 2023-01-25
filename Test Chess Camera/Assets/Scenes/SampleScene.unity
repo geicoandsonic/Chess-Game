@@ -1828,6 +1828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 990644920450286}
+  - component: {fileID: 391727574}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Untagged
@@ -1835,6 +1836,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &391727574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391727573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b05076b64e87644b0f1fb98d45e20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
 --- !u!1 &404499574
 GameObject:
   m_ObjectHideFlags: 0
@@ -5773,6 +5787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1799380505656483016}
+  - component: {fileID: 944883299}
   m_Layer: 0
   m_Name: Bishop
   m_TagString: Untagged
@@ -5780,6 +5795,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &944883299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944883298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 759709efea56bc44f822bc2f786a3755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -7463,6 +7491,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510937737704587348}
+  - component: {fileID: 1412259865}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -7470,6 +7499,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1412259865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412259864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d130e809048812c45a941b9d7e5f0ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
 --- !u!1 &1412323139
 GameObject:
   m_ObjectHideFlags: 0
@@ -8691,6 +8733,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7232959034589833300}
+  - component: {fileID: 1633835275}
   m_Layer: 0
   m_Name: Queen
   m_TagString: Untagged
@@ -8698,6 +8741,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1633835275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633835274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae2437f945dfa442858bdcf14faed9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
 --- !u!1 &1706380799
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Selection : MonoBehaviour
 {
-    public TextMeshProUGUI tooltip;
+    public TextMeshProUGUI TooltipHover;
+    public TextMeshProUGUI TooltipSelected;
+    public TextMeshProUGUI TooltipPiece;
 
     private GameManager gameManager;
 
@@ -21,10 +23,27 @@ public class Selection : MonoBehaviour
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
+    // this is a LAZY AF way of updating the text in the top left, we can improve it later if needed
     void Update()
     {
+        if (gameManager.selectedTile != null)
+        {
+            TooltipSelected.text = "Selected: " + gameManager.selectedTile.getName();
+        }
+        else
+        {
+            TooltipSelected.text = "Selected: None";
+        }
+
         
+        if (gameManager.playerOneHasPiece)
+        {
+            TooltipPiece.text = "Piece: " + gameManager.playerOnePiece.getFaction().ToString() + " " + 
+                gameManager.playerOnePiece.getPieceType();
+        } else
+        {
+            TooltipPiece.text = "Piece: None";
+        }
     }
 
 
@@ -38,7 +57,7 @@ public class Selection : MonoBehaviour
         pos.y = 0.1f;
         gameObject.transform.position = pos;
 
-        tooltip.text = "Tile: " + ct.getName() + " (" + ct.getOccupantName() + ")";
+        TooltipHover.text = "Hovering: " + ct.getName();
     }
 
     //disable the shiny selector box
@@ -46,7 +65,7 @@ public class Selection : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        tooltip.text = "Tile: None";
+        TooltipHover.text = "Hovering: None";
     }
 
 

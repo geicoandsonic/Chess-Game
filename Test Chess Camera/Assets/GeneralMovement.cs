@@ -35,9 +35,11 @@ public class GeneralMovement: MonoBehaviour
     protected void addTileToLists(int upBy, int rightBy)
     {
 
-
         //add to chess tile list (list of chessTiles for your perusal)
-        chessTileList.AddFirst(board.board[upBy,rightBy]);
+        if(upBy >= 0 && upBy <= 7 && rightBy >= 0 && rightBy <= 7){
+            chessTileList.AddFirst(board.board[upBy,rightBy]);
+        }
+        
     }
 
     protected void listCleanup()

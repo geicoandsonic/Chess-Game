@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public bool playerOneHasPiece;
     public Unit playerOnePiece;
+    public bool playerOneTurn; //True if white chess side is playing i.e. player one, false if black chess side is playing i.e. player two.
     public ChessTile selectedTile;
 
     void Awake(){

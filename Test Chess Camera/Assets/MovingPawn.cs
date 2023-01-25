@@ -6,7 +6,6 @@ public class MovingPawn : GeneralMovement
 {
     
     void Awake(){
-        //ghostTile = GameObject.FindWithTag("ghostTile");
         moveSetup();
     }
 

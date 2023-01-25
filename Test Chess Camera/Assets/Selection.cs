@@ -117,8 +117,8 @@ public class Selection : MonoBehaviour
             Debug.Log("Taking move " + ct.getName());
             if (gameManager.playerOnePiece.takeMove(ct.row, ct.colNum, ct))
             {
-                //gameManager.selectedTile.occupant = null;
-
+                //Invert turn
+                gameManager.playerOneTurn = !gameManager.playerOneTurn;
                 //delete ghost tiles, deselect piece just moved
                 cleanupGhostTile();
                 deselectPiece();
@@ -141,11 +141,18 @@ public class Selection : MonoBehaviour
         foreach (var tile in movables)
         {
             if(gameManager.playerOneTurn){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
-                //Debug.Log(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString());
                 if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(tile.row, tile.colNum);
                 }
                 else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "white"){
+                    addToGhostList(tile.row, tile.colNum);
+                }
+            }
+            else{ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
+                if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
+                    addToGhostList(tile.row, tile.colNum);
+                }
+                else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "black"){
                     addToGhostList(tile.row, tile.colNum);
                 }
             }

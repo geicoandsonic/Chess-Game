@@ -58,19 +58,20 @@ public class ChessBoardSetup : MonoBehaviour
         blackArmy.name = "blackArmy";
 
         //in setup phase, just copy a "template" of each piece.
-        GameObject templatePawn = basePieces.transform.GetChild(0).gameObject;
-        GameObject templateKnight = basePieces.transform.GetChild(1).gameObject;
-        GameObject templateBishop = basePieces.transform.GetChild(2).gameObject;
-        GameObject templateRook = basePieces.transform.GetChild(3).gameObject;
-        GameObject templateQueen = basePieces.transform.GetChild(4).gameObject;
-        GameObject templateKing = basePieces.transform.GetChild(5).gameObject;
+        GameObject templatePawnWhite = basePieces.transform.GetChild(0).gameObject;
+        GameObject templatePawnBlack = basePieces.transform.GetChild(1).gameObject;
+        GameObject templateKnight = basePieces.transform.GetChild(2).gameObject;
+        GameObject templateBishop = basePieces.transform.GetChild(3).gameObject;
+        GameObject templateRook = basePieces.transform.GetChild(4).gameObject;
+        GameObject templateQueen = basePieces.transform.GetChild(5).gameObject;
+        GameObject templateKing = basePieces.transform.GetChild(6).gameObject;
 
         //instantiate pawns
         for (int j=0; j<8; j++)
         {
-            board[1, j].occupant = GameObject.Instantiate(templatePawn).AddComponent<Unit>();
+            board[1, j].occupant = GameObject.Instantiate(templatePawnWhite).AddComponent<Unit>();
             board[1, j].occupant.SetUnit(Unit.Piece.PAWN, board[1, j], Unit.Faction.WHITE);
-            board[6, j].occupant = GameObject.Instantiate(templatePawn).AddComponent<Unit>();
+            board[6, j].occupant = GameObject.Instantiate(templatePawnBlack).AddComponent<Unit>();
             board[6, j].occupant.SetUnit(Unit.Piece.PAWN, board[6, j], Unit.Faction.BLACK);
         }
 

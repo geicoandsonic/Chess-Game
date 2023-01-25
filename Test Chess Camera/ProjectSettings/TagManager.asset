@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ghostTile
   - GameManager
+  - ghostTileEnemy
   layers:
   - Default
   - TransparentFX

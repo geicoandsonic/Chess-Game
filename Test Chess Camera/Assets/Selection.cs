@@ -14,6 +14,7 @@ public class Selection : MonoBehaviour
     //used for displaying "ghost tiles", places where currently selected piece could move.
     private ChessBoardSetup board;
     private GameObject ghostTile;
+    private GameObject ghostTileEnemy;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
 
     // Start is called before the first frame update
@@ -134,6 +135,7 @@ public class Selection : MonoBehaviour
     private void makeGhostTiles(Unit unit)
     {
         if (ghostTile == null) { ghostTile = GameObject.FindWithTag("ghostTile"); }
+        if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
 
         cleanupGhostTile();
         LinkedList<ChessTile> movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();
@@ -142,29 +144,43 @@ public class Selection : MonoBehaviour
         {
             if(gameManager.playerOneTurn){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
                 if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
-                    addToGhostList(tile.row, tile.colNum);
+                    addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
                 }
                 else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "white"){
-                    addToGhostList(tile.row, tile.colNum);
+                    Debug.Log("Looking at enemy for white");
+                    addToGhostList(tile.row, tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
             else{ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
                 if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
-                    addToGhostList(tile.row, tile.colNum);
+                    addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
                 }
                 else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "black"){
-                    addToGhostList(tile.row, tile.colNum);
+                    Debug.Log("Looking at enemy for black");
+                    addToGhostList(tile.row, tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
             
         }
     }
 
-    private void addToGhostList(int x, int y)
+    private void addToGhostList(int x, int y, int tileType)
     {
-
-        //add to ghost tile list (blue square object showing where you can move)
-        GameObject gt = GameObject.Instantiate(ghostTile);
+        GameObject gt;
+        switch(tileType)
+        {
+            case 0: //add to ghost tile list (blue square object showing where you can move)
+            gt = GameObject.Instantiate(ghostTile);
+            break;
+            case 1: //red tile for enemy
+            Debug.Log("Enemy tile");
+            gt = GameObject.Instantiate(ghostTileEnemy);
+            break;
+            default: //Shouldn't occur, may be responsible for extra tiles if done incorrectly
+            gt = GameObject.Instantiate(ghostTile);
+            break;
+        }
+        
         Vector3 oldPos = board.board[x, y].transform.position;
         gt.transform.position = new Vector3(oldPos.x, 0.5f, oldPos.z);
         ghostTileList.AddFirst(gt);

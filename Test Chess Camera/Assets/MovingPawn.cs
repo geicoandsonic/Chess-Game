@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class MovingPawn : GeneralMovement
 {
-
-    //new private LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
-    //[SerializeField] private GameObject ghostTile;
-
+    
     void Awake(){
         //ghostTile = GameObject.FindWithTag("ghostTile");
         moveSetup();
@@ -24,6 +21,7 @@ public class MovingPawn : GeneralMovement
     public override void onMove()
     {
         removeShortMovement(2, 0);
+        listCleanup();
         //shortMovements.Remove((2,0));
     }
 }

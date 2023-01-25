@@ -5741,7 +5741,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908024333}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.18, y: 0.43, z: -2}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2020042570}
@@ -7875,7 +7875,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerOneHasPiece: 0
   playerOnePiece: {fileID: 0}
-  tile: {fileID: 0}
+  selectedTile: {fileID: 0}
 --- !u!4 &1465610856
 Transform:
   m_ObjectHideFlags: 0
@@ -8780,7 +8780,6 @@ GameObject:
   - component: {fileID: 1731968431}
   - component: {fileID: 1731968434}
   - component: {fileID: 1731968433}
-  - component: {fileID: 1731968435}
   - component: {fileID: 1731968432}
   m_Layer: 0
   m_Name: Capsule
@@ -8866,19 +8865,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731968430}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1731968435
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731968430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bf5ee8b595bede4891065fed92ccea9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostTile: {fileID: 0}
 --- !u!1 &1751987684
 GameObject:
   m_ObjectHideFlags: 0
@@ -8984,6 +8970,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1583541936}
+  - component: {fileID: 1780077005}
   m_Layer: 0
   m_Name: Pawn
   m_TagString: Untagged
@@ -8991,6 +8978,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1780077005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780077004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bf5ee8b595bede4891065fed92ccea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
 --- !u!1 &1820446300
 GameObject:
   m_ObjectHideFlags: 0
@@ -9697,8 +9697,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020042569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 0, z: 19.75}
-  m_LocalScale: {x: 0.15, y: 1, z: 0.15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.12, y: 1, z: 0.12}
   m_Children: []
   m_Father: {fileID: 908024334}
   m_RootOrder: 0
@@ -9712,7 +9712,7 @@ MeshCollider:
   m_GameObject: {fileID: 2020042569}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30

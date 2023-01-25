@@ -15,15 +15,12 @@ public class GeneralMovement: MonoBehaviour
      queens have all 8 of these.*/
     public LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
     public LinkedList<(int x, int y)> longMovements = new LinkedList<(int x, int y)>();
-    [SerializeField] private GameObject ghostTile;
-    private Unit unit;
+    //[SerializeField] private GameObject ghostTile;
+    [SerializeField] private Unit unit;
+    private ChessBoardSetup board;
 
-    void Awake()
-    {
-        ghostTile = GameObject.FindWithTag("ghostTile");
-        unit = gameObject.GetComponent<Unit>();
-        moveSetup();
-    }
+    //private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
+    private LinkedList<ChessTile> chessTileList = new LinkedList<ChessTile>();
 
     public virtual void moveSetup()
     {
@@ -32,20 +29,37 @@ public class GeneralMovement: MonoBehaviour
 
     public virtual void onMove()
     {
-        Debug.Log("BAD");
         //override with what this piece does, if anything, when it moves.
+    }
+
+    protected void addTileToLists(int upBy, int rightBy)
+    {
+
+
+        //add to chess tile list (list of chessTiles for your perusal)
+        chessTileList.AddFirst(board.board[upBy,rightBy]);
+    }
+
+    protected void listCleanup()
+    {
+
+        chessTileList.Clear();
     }
 
     public LinkedList<ChessTile> getPossibleMoves()
     {
+        unit = GetComponent<Unit>();
+        if(board == null) { board = FindObjectOfType<ChessBoardSetup>(); }
+        listCleanup();
         foreach (var move in shortMovements)
         {
-            //Do this later
+            addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y);
         }
-        throw new System.NotImplementedException();
+        return chessTileList;
+        
     }
 
-    public bool attemptMovement(int row, int col, int currRow, int currCol)
+    /*public bool attemptMovement(int row, int col, int currRow, int currCol)
     {
         Debug.Log("Attempting movement");
         foreach (var move in shortMovements)
@@ -71,6 +85,27 @@ public class GeneralMovement: MonoBehaviour
         foreach (var move in longMovements)
         {
 
+        }
+        return false;
+    }*/
+
+    public bool attemptMove2(ChessTile destination)
+    {
+        if (validMove(getPossibleMoves(), destination))
+        {
+            onMove();
+            Debug.Log("new move method worked, path found");
+            return true;
+        }
+        return false;
+    }
+
+    //basically a rewrite of the "contains" method.
+    private bool validMove(LinkedList<ChessTile> possible, ChessTile dest)
+    {
+        foreach(ChessTile possibleMove in possible){
+            Debug.Log(dest.getName());
+            if (possibleMove.getName().Equals(dest.getName())) return true;
         }
         return false;
     }

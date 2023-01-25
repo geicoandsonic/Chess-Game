@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     private ChessTile location;
     //private int row, col;
     private Faction faction;
-    public MovingPawn pawnUnit;
+    private GeneralMovement movement;
 
     public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
@@ -71,6 +71,11 @@ public class Unit : MonoBehaviour
         return pieceType;
     }
 
+    public ChessTile getLocation()
+    {
+        return location;
+    }
+
     public int getRow(){
         return location.row;
     }
@@ -79,16 +84,15 @@ public class Unit : MonoBehaviour
         return location.colNum;
     }
 
-    public void displayMovementOptions(){ //Will eventually display ghost tiles of where player can go
-        
-    }
+    public bool takeMove(int x, int y, ChessTile destination){
+        movement = gameObject.GetComponent<GeneralMovement>();
 
-    public bool takeMove(int x, int y, GameObject tile){
-        pawnUnit = gameObject.transform.GetChild(0).GetComponent<MovingPawn>();
-        if(pawnUnit.attemptMovement(x,y,location.row,location.colNum)){
-            location = tile.GetComponent<ChessTile>();
-            Debug.Log("Unit col" + location.colNum);
-            tile.GetComponent<ChessTile>().occupant = this;
+        if(movement.attemptMove2(destination.GetComponent<ChessTile>()))
+        {
+            location.occupant = null;
+            location = destination;
+            //Debug.Log("Unit col" + location.colNum);
+            location.occupant = this;
             gameObject.transform.position = new Vector3(1.5f * location.row, 0, -1.5f * location.colNum);
             return true;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChessBoardSetup : MonoBehaviour
 {
-    private ChessTile[,] board;
+    public ChessTile[,] board;
     private GameObject gameObjectBoard;
 
     public GameObject basePieces;

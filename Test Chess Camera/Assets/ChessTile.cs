@@ -15,6 +15,7 @@ public class ChessTile : MonoBehaviour
     ChessBoardSetup board;
     Selection selector;
 
+
     void Start()
     {
         //colNum = (int)column - 97;
@@ -40,28 +41,19 @@ public class ChessTile : MonoBehaviour
     {
         Debug.Log("clicked " + getName());
         if (occupant != null){//We have found a piece
-            //if(occupant.getFaction() == Player Faction) will be used for checking if you have selected your own pieces
-            if(!gameManager.playerOneHasPiece){ // Player One currently does not have a piece selected
-                gameManager.playerOneHasPiece = true; //Now they do
-                gameManager.playerOnePiece = occupant.GetComponent<Unit>();
-                gameManager.tile = this;
-            }
-            else{ // Player One has a piece already, so we need to switch them
-                Debug.Log("Switching pieces " + getName());
-                 gameManager.playerOnePiece = occupant.GetComponent<Unit>();   
-                 gameManager.tile = this;
-            }
+            selector.selectPiece(this);
             
         }
         else{ //Tile is empty
-            if(gameManager.playerOneHasPiece){
-                Debug.Log("Taking move " + getName());
-                if(gameManager.playerOnePiece.takeMove(row,colNum, gameObject)){
-                    gameManager.tile.occupant = null;
-                }
-            }
+            selector.emptySelection(this);
         }
     }
+
+    
+
+
+
+
 
     public string getName()
     {

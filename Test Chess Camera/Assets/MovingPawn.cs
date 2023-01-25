@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovingPawn : GeneralMovement
 {
 
-    //public LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
+    //new private LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
     //[SerializeField] private GameObject ghostTile;
 
     void Awake(){
@@ -13,14 +13,17 @@ public class MovingPawn : GeneralMovement
         moveSetup();
     }
 
-    new public void moveSetup()
+    public override void moveSetup()
     {
-        shortMovements.AddFirst((1,0));
-        shortMovements.AddFirst((2,0));
+        addShortMovement(1, 0);
+        addShortMovement(2, 0);
+        //shortMovements.AddFirst((1,0));
+        //shortMovements.AddFirst((2,0));
     }
 
-    new public void onMove()
+    public override void onMove()
     {
-        shortMovements.Remove((2,0));
+        removeShortMovement(2, 0);
+        //shortMovements.Remove((2,0));
     }
 }

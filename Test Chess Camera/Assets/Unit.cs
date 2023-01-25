@@ -9,20 +9,20 @@ public class Unit : MonoBehaviour
 
     //fields to be changed
     private Piece pieceType;
-    private int row, col;
+    private ChessTile location;
+    //private int row, col;
     private Faction faction;
     public MovingPawn pawnUnit;
 
-    public void SetUnit(Piece pieceT, int row, int col, Faction f)
+    public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
         pieceType = pieceT;
-        this.row = row; this.col = col;
+        location = tile;
         faction = f;
 
         //gameObject.transform.parent = null;
         //set position
-        float c = 0;
-        gameObject.transform.position = new Vector3(1.5f * row, 0, -1.5f * col - c);
+        gameObject.transform.position = new Vector3(1.5f * location.row, 0, -1.5f * location.colNum);
 
         //add to proper army
         MeshRenderer[] mrs = GetComponentsInChildren<MeshRenderer>();
@@ -72,11 +72,11 @@ public class Unit : MonoBehaviour
     }
 
     public int getRow(){
-        return row;
+        return location.row;
     }
 
     public int getCol(){
-        return col;
+        return location.colNum;
     }
 
     public void displayMovementOptions(){ //Will eventually display ghost tiles of where player can go
@@ -85,12 +85,11 @@ public class Unit : MonoBehaviour
 
     public bool takeMove(int x, int y, GameObject tile){
         pawnUnit = gameObject.transform.GetChild(0).GetComponent<MovingPawn>();
-        if(pawnUnit.attemptMovement(x,y,row,col)){
-            row = tile.GetComponent<ChessTile>().row;
-            col = tile.GetComponent<ChessTile>().colNum;
-            Debug.Log("Unit col" + col);
+        if(pawnUnit.attemptMovement(x,y,location.row,location.colNum)){
+            location = tile.GetComponent<ChessTile>();
+            Debug.Log("Unit col" + location.colNum);
             tile.GetComponent<ChessTile>().occupant = this;
-            gameObject.transform.position = new Vector3(1.5f * row, 0, -1.5f * col);
+            gameObject.transform.position = new Vector3(1.5f * location.row, 0, -1.5f * location.colNum);
             return true;
         }
         else{

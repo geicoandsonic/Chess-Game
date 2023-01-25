@@ -69,9 +69,9 @@ public class ChessBoardSetup : MonoBehaviour
         for (int j=0; j<8; j++)
         {
             board[1, j].occupant = GameObject.Instantiate(templatePawn).AddComponent<Unit>();
-            board[1, j].occupant.SetUnit(Unit.Piece.PAWN, 1, j, Unit.Faction.WHITE);
+            board[1, j].occupant.SetUnit(Unit.Piece.PAWN, board[1, j], Unit.Faction.WHITE);
             board[6, j].occupant = GameObject.Instantiate(templatePawn).AddComponent<Unit>();
-            board[6, j].occupant.SetUnit(Unit.Piece.PAWN, 6, j, Unit.Faction.BLACK);
+            board[6, j].occupant.SetUnit(Unit.Piece.PAWN, board[6, j], Unit.Faction.BLACK);
         }
 
 
@@ -82,31 +82,31 @@ public class ChessBoardSetup : MonoBehaviour
             if(i > 0) { f = Unit.Faction.BLACK; }
 
             board[i, 0].occupant = GameObject.Instantiate(templateRook).AddComponent<Unit>();
-            board[i, 0].occupant.SetUnit(Unit.Piece.ROOK, i, 0, f);
+            board[i, 0].occupant.SetUnit(Unit.Piece.ROOK, board[i, 0], f);
             board[i, 7].occupant = GameObject.Instantiate(templateRook).AddComponent<Unit>();
-            board[i, 7].occupant.SetUnit(Unit.Piece.ROOK, i, 7, f);
+            board[i, 7].occupant.SetUnit(Unit.Piece.ROOK, board[i, 7], f);
 
             board[i, 1].occupant = GameObject.Instantiate(templateKnight).AddComponent<Unit>();
-            board[i, 1].occupant.SetUnit(Unit.Piece.KNIGHT, i, 1, f);
+            board[i, 1].occupant.SetUnit(Unit.Piece.KNIGHT, board[i, 1], f);
             board[i, 6].occupant = GameObject.Instantiate(templateKnight).AddComponent<Unit>();
-            board[i, 6].occupant.SetUnit(Unit.Piece.KNIGHT, i, 6, f);
+            board[i, 6].occupant.SetUnit(Unit.Piece.KNIGHT, board[i, 6], f);
 
             board[i, 2].occupant = GameObject.Instantiate(templateBishop).AddComponent<Unit>();
-            board[i, 2].occupant.SetUnit(Unit.Piece.BISHOP, i, 2, f);
+            board[i, 2].occupant.SetUnit(Unit.Piece.BISHOP, board[i, 2], f);
             board[i, 5].occupant = GameObject.Instantiate(templateBishop).AddComponent<Unit>();
-            board[i, 5].occupant.SetUnit(Unit.Piece.BISHOP, i, 5, f);
+            board[i, 5].occupant.SetUnit(Unit.Piece.BISHOP, board[i, 5], f);
         }
 
         //instantiate the royals
         board[0, 3].occupant = GameObject.Instantiate(templateQueen).AddComponent<Unit>();
-        board[0, 3].occupant.SetUnit(Unit.Piece.QUEEN, 0, 3, Unit.Faction.WHITE);
+        board[0, 3].occupant.SetUnit(Unit.Piece.QUEEN, board[0, 3], Unit.Faction.WHITE);
         board[0, 4].occupant = GameObject.Instantiate(templateKing).AddComponent<Unit>();
-        board[0, 4].occupant.SetUnit(Unit.Piece.KING, 0, 4, Unit.Faction.WHITE);
+        board[0, 4].occupant.SetUnit(Unit.Piece.KING, board[0, 4], Unit.Faction.WHITE);
 
         board[7, 3].occupant = GameObject.Instantiate(templateQueen).AddComponent<Unit>();
-        board[7, 3].occupant.SetUnit(Unit.Piece.QUEEN, 7, 3, Unit.Faction.BLACK);
+        board[7, 3].occupant.SetUnit(Unit.Piece.QUEEN, board[7, 3], Unit.Faction.BLACK);
         board[7, 4].occupant = GameObject.Instantiate(templateKing).AddComponent<Unit>();
-        board[7, 4].occupant.SetUnit(Unit.Piece.KING, 7, 4, Unit.Faction.BLACK);
+        board[7, 4].occupant.SetUnit(Unit.Piece.KING, board[7, 4], Unit.Faction.BLACK);
     }
 
     // Update is called once per frame

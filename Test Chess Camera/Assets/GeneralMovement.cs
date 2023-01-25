@@ -25,13 +25,14 @@ public class GeneralMovement: MonoBehaviour
         moveSetup();
     }
 
-    public void moveSetup()
+    public virtual void moveSetup()
     {
         //override and add "default" movements of the piece here.
     }
 
-    public void onMove()
+    public virtual void onMove()
     {
+        Debug.Log("BAD");
         //override with what this piece does, if anything, when it moves.
     }
 

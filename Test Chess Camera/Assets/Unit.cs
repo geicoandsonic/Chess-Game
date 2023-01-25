@@ -66,6 +66,11 @@ public class Unit : MonoBehaviour
         return faction;
     }
 
+    public Piece getPieceType()
+    {
+        return pieceType;
+    }
+
     public int getRow(){
         return row;
     }

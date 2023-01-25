@@ -27,7 +27,7 @@ public class MovingKnight : GeneralMovement
         addShortMovement(-longDistance,shortDistance);
         addShortMovement(-longDistance,-shortDistance);
         addShortMovement(-shortDistance,longDistance);
-        addShortMovement(-shortDistance,longDistance);
+        addShortMovement(-shortDistance,-longDistance);
         //addShortMovement(0,3);
         //addShortMovement(0,-4);
     }

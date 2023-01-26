@@ -14,9 +14,9 @@ public class MovingBishop : GeneralMovement
         //diagonal
         for(int i = 0; i < 8; i++){ //Currently it should go at most 8 tiles
             addShortMovement(i,i);
+            addShortMovement(i,-i);
+            addShortMovement(-i,i);
             addShortMovement(-i,-i);
-            addShortMovement(i,-i);
-            addShortMovement(i,-i);
         }
         //addShortMovement(0,3);
         //addShortMovement(0,-4);

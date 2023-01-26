@@ -16,6 +16,7 @@ public class Selection : MonoBehaviour
     private GameObject ghostTile;
     private GameObject ghostTileEnemy;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
+    private bool whichTurnIsIt; //Check for which turn it is, so you can defeat pieces.
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +82,7 @@ public class Selection : MonoBehaviour
             gameManager.playerOneHasPiece = true; //Now they do
             gameManager.playerOnePiece = ct.occupant.GetComponent<Unit>();
             gameManager.selectedTile = ct;
+            makeGhostTiles(ct.occupant);
         }
         else
         { // Player One has a piece already, so we need to switch them or deselect
@@ -88,16 +90,34 @@ public class Selection : MonoBehaviour
             {
                 Debug.Log("deselect");
                 deselectPiece();
-            } else //different tile? select the new one
+                makeGhostTiles(ct.occupant);
+            }
+            else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
+                //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
+                if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
+                    
+                }
+                else if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.KING){ //We have a king
+                    
+                }
+                else{ //Generic piece type
+                    Debug.Log("Destroying");
+                    Destroy(ct.occupant.gameObject);
+                    ct.occupant = null;
+                    emptySelection(ct);
+                }
+            }
+            else //different tile? select the new one
             {
                 Debug.Log("Switching pieces " + ct.getName());
                 gameManager.playerOnePiece = ct.occupant.GetComponent<Unit>();
                 gameManager.selectedTile = ct;
+                makeGhostTiles(ct.occupant);
             }
             
 
         }
-        makeGhostTiles(ct.occupant);
+        
     }
 
     //deselect the piece at this position
@@ -136,7 +156,7 @@ public class Selection : MonoBehaviour
     {
         if (ghostTile == null) { ghostTile = GameObject.FindWithTag("ghostTile"); }
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
-
+        Debug.Log(unit.getPieceType());
         cleanupGhostTile();
         LinkedList<ChessTile> movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();
 

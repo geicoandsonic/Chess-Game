@@ -32,22 +32,24 @@ public class GeneralMovement: MonoBehaviour
         //override with what this piece does, if anything, when it moves.
     }
 
+
+    //add to chess tile list (list of chessTiles for your perusal)
     protected void addTileToLists(int upBy, int rightBy)
     {
-
-        //add to chess tile list (list of chessTiles for your perusal)
         if(upBy >= 0 && upBy <= 7 && rightBy >= 0 && rightBy <= 7){
             chessTileList.AddFirst(board.board[upBy,rightBy]);
         }
         
     }
 
+    //clear the chess tile list
     protected void listCleanup()
     {
 
         chessTileList.Clear();
     }
 
+    //get all possible tiles this piece could move to next turn.
     public LinkedList<ChessTile> getPossibleMoves()
     {
         unit = GetComponent<Unit>();
@@ -57,40 +59,42 @@ public class GeneralMovement: MonoBehaviour
         {
             addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y);
         }
+        //thoughtful design: are things getting added twice? please check...
+        foreach (var move in longMovements)
+        {
+            for (int i = 1; i <= 8; i++)
+            {
+                int tempRow = unit.getRow() + move.x * i;
+                int tempCol = unit.getCol() + move.y * i;
+                //check 2 things: the row/col are in bounds, and the path here isn't blocked
+                if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                {
+
+                    int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
+                    //empty tile. can move here and past it
+                    if(code == 0)
+                    {
+                        addTileToLists(tempRow, tempCol);
+                    } else if(code == 1) //enemy tile. can move here but not past it
+                    {
+                        addTileToLists(tempRow, tempCol);
+                        break;
+                    } else if(code == 2) //friendly tile. can't move here
+                    {
+                        break;
+                    }
+                    
+                }
+                else break;
+                
+                //if(board[tempRow, tempCol])
+            }
+        }
         return chessTileList;
         
     }
 
-    /*public bool attemptMovement(int row, int col, int currRow, int currCol)
-    {
-        Debug.Log("Attempting movement");
-        foreach (var move in shortMovements)
-        {
-            //Debug.Log("move.x = " + move.x);
-            //Debug.Log("currRow and move.x = " + currRow + " " + move.x);
-            //Debug.Log("target row = " + row);
-            if (currRow + move.x == row)
-            {
-                //Debug.Log("move.y = " + move.y);
-                //Debug.Log("currCol and move.y = " + currCol + " " + move.y);
-                //Debug.Log("target col = " + col);
-                if (currCol + move.y == col)
-                {
-                    onMove();
-                    Debug.Log("Successfully found path");
-                    return true;
-                }
-            }
-        }
-
-        //DO LATER
-        foreach (var move in longMovements)
-        {
-
-        }
-        return false;
-    }*/
-
+    //move the tile to an empty destination
     public bool attemptMove2(ChessTile destination)
     {
         if (validMove(getPossibleMoves(), destination))

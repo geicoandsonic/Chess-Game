@@ -11,6 +11,7 @@ public class MovingQueen : GeneralMovement
 
     public override void moveSetup()
     {
+        /*
         //cardinal
         for(int i = 0; i < 8; i++){ //Currently it should go at most 8 tiles
             addShortMovement(i,0);
@@ -24,9 +25,19 @@ public class MovingQueen : GeneralMovement
             addShortMovement(i,-i);
             addShortMovement(-i,i);
             addShortMovement(-i,-i);
-        }
+        }*/
         //addShortMovement(0,3);
         //addShortMovement(0,-4);
+
+        addLongMovement(1, 0);
+        addLongMovement(-1, 0);
+        addLongMovement(0, 1);
+        addLongMovement(0, -1);
+
+        addLongMovement(1, 1);
+        addLongMovement(-1, 1);
+        addLongMovement(1, -1);
+        addLongMovement(-1, -1);
     }
 
     public override void onMove()

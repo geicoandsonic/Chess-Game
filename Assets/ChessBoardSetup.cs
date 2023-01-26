@@ -110,6 +110,21 @@ public class ChessBoardSetup : MonoBehaviour
         board[7, 4].occupant.SetUnit(Unit.Piece.KING, board[7, 4], Unit.Faction.BLACK);
     }
 
+    //used in movement scripts.
+    //given a unit and destination tile, return 0 if new tile is empty, 1 if enemy unit, 2 if friendly unit
+    public int newTileRelation(Unit unit, ChessTile destination)
+    {
+        if(destination.occupant == null)
+        {
+            return 0;
+        }
+        if (unit.getFaction() != destination.occupant.getFaction())
+        {
+            return 1;
+        }
+        else return 2;
+    }
+
     // Update is called once per frame
     void Update()
     {

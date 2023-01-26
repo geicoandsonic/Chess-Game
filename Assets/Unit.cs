@@ -98,6 +98,10 @@ public class Unit : MonoBehaviour
 
         if(movement.attemptMove2(destination.GetComponent<ChessTile>()))
         {
+            if(destination.occupant != null){
+                Destroy(destination.occupant.gameObject);
+                destination.occupant = null;
+            }
             location.occupant = null;
             location = destination;
             //Debug.Log("Unit col" + location.colNum);

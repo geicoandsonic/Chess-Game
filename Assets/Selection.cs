@@ -95,17 +95,19 @@ public class Selection : MonoBehaviour
             else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
                 //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
                 if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
-                    
+                    // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
+                    emptySelection(ct);
                 }
                 else if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.KING){ //We have a king
                     
                 }
                 else{ //Generic piece type
-                    Debug.Log("Destroying");
-                    Destroy(ct.occupant.gameObject);
-                    ct.occupant = null;
-                    emptySelection(ct);
-                }
+                        emptySelection(ct);
+                       /* emptySelection(ct);
+                        Debug.Log("Destroying");
+                        Destroy(ct.occupant.gameObject);
+                        ct.occupant = null;*/
+                    }
             }
             else //different tile? select the new one
             {
@@ -158,8 +160,16 @@ public class Selection : MonoBehaviour
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
         Debug.Log(unit.getPieceType());
         cleanupGhostTile();
-        LinkedList<ChessTile> movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();
-
+        LinkedList<ChessTile> movables;
+        if(unit.getPieceType() == Unit.Piece.PAWN){
+            Debug.Log("ghost for pawn");
+             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
+        }
+        else{
+            Debug.Log("ghost else");
+             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();
+        }
+        
         foreach (var tile in movables)
         {
             if(gameManager.playerOneTurn){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)

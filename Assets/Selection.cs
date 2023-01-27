@@ -38,10 +38,10 @@ public class Selection : MonoBehaviour
         }
 
         
-        if (gameManager.playerOneHasPiece)
+        if (gameManager.playerHasPiece)
         {
-            TooltipPiece.text = "Piece: " + gameManager.playerOnePiece.getFaction().ToString() + " " + 
-                gameManager.playerOnePiece.getPieceType();
+            TooltipPiece.text = "Piece: " + gameManager.playerPiece.getFaction().ToString() + " " + 
+                gameManager.playerPiece.getPieceType();
         } else
         {
             TooltipPiece.text = "Piece: None";
@@ -77,48 +77,96 @@ public class Selection : MonoBehaviour
     public void selectPiece(ChessTile ct)
     {
         //if(occupant.getFaction() == Player Faction) will be used for checking if you have selected your own pieces
-        if (!gameManager.playerOneHasPiece)
-        { // Player One currently does not have a piece selected
-            gameManager.playerOneHasPiece = true; //Now they do
-            gameManager.playerOnePiece = ct.occupant.GetComponent<Unit>();
-            gameManager.selectedTile = ct;
-            makeGhostTiles(ct.occupant);
-        }
-        else
-        { // Player One has a piece already, so we need to switch them or deselect
-            if (ct.Equals(gameManager.selectedTile)) //same tile. deselect
-            {
-                Debug.Log("deselect");
-                deselectPiece();
-                makeGhostTiles(ct.occupant);
+        if(gameManager.gameState == GameManager.GameState.PLAYERONETURN){
+            Debug.Log("Player One Turn");
+            if (!gameManager.playerHasPiece)
+            { // Player One currently does not have a piece selected
+                if(ct.occupant.GetComponent<Unit>().getFactionString() == "white"){
+                    gameManager.playerHasPiece = true; //Now they do
+                    gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
+                    gameManager.selectedTile = ct;
+                    makeGhostTiles(ct.occupant);
+                }
+                else{
+                    Debug.Log("Wrong team!");
+                }
+                
             }
-            else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
-                //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
-                if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
-                    // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
-                    emptySelection(ct);
+            else
+            { // Player One has a piece already, so we need to switch them or deselect
+                if (ct.Equals(gameManager.selectedTile)) //same tile. deselect
+                {
+                   Debug.Log("deselect");
+                   deselectPiece();
+                   makeGhostTiles(ct.occupant);
                 }
-                else if(gameManager.playerOnePiece.getPieceType() == Unit.Piece.KING){ //We have a king
-                    
-                }
-                else{ //Generic piece type
+                else if(ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
+                    //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
+                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
+                         // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
                         emptySelection(ct);
-                       /* emptySelection(ct);
-                        Debug.Log("Destroying");
-                        Destroy(ct.occupant.gameObject);
-                        ct.occupant = null;*/
                     }
+                    else if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
+                    
+                    }
+                    else{ //Generic piece type
+                            emptySelection(ct);
+                    }
+                }
+                else //different tile? select the new one
+                {
+                    Debug.Log("Switching pieces " + ct.getName());
+                    gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
+                    gameManager.selectedTile = ct;
+                    makeGhostTiles(ct.occupant);
+                }            
             }
-            else //different tile? select the new one
-            {
-                Debug.Log("Switching pieces " + ct.getName());
-                gameManager.playerOnePiece = ct.occupant.GetComponent<Unit>();
-                gameManager.selectedTile = ct;
-                makeGhostTiles(ct.occupant);
-            }
-            
-
         }
+        else if(gameManager.gameState == GameManager.GameState.PLAYERTWOTURN){
+            Debug.Log("Player Two Turn");
+            if (!gameManager.playerHasPiece)
+            { // Player Two currently does not have a piece selected
+                if(ct.occupant.GetComponent<Unit>().getFactionString() == "black"){
+                    gameManager.playerHasPiece = true; //Now they do
+                    gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
+                    gameManager.selectedTile = ct;
+                    makeGhostTiles(ct.occupant);
+                }
+                else{
+                    Debug.Log("Wrong team!");
+                }
+            }
+            else
+            { // Player One has a piece already, so we need to switch them or deselect
+                if (ct.Equals(gameManager.selectedTile)) //same tile. deselect
+                {
+                   Debug.Log("deselect");
+                   deselectPiece();
+                   makeGhostTiles(ct.occupant);
+                }
+                else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "black"){ //Player two turn, hitting a white piece
+                    //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
+                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
+                         // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
+                        emptySelection(ct);
+                    }
+                    else if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
+                    
+                    }
+                    else{ //Generic piece type
+                            emptySelection(ct);
+                    }
+                }
+                else //different tile? select the new one
+                {
+                    Debug.Log("Switching pieces " + ct.getName());
+                    gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
+                    gameManager.selectedTile = ct;
+                    makeGhostTiles(ct.occupant);
+                }            
+            }
+        }
+        
         
     }
 
@@ -127,21 +175,21 @@ public class Selection : MonoBehaviour
     {
         cleanupGhostTile();
         gameManager.selectedTile = null;
-        gameManager.playerOneHasPiece = false;
-        gameManager.playerOnePiece = null;
+        gameManager.playerHasPiece = false;
+        gameManager.playerPiece = null;
     }
 
     public void emptySelection(ChessTile ct)
     {
         gameManager.selectedTile = ct;
 
-        if (gameManager.playerOneHasPiece)
+        if (gameManager.playerHasPiece)
         {
             Debug.Log("Taking move " + ct.getName());
-            if (gameManager.playerOnePiece.takeMove(ct.row, ct.colNum, ct))
+            if (gameManager.playerPiece.takeMove(ct.row, ct.colNum, ct))
             {
                 //Invert turn
-                gameManager.playerOneTurn = !gameManager.playerOneTurn;
+                gameManager.changeGameState();
                 //delete ghost tiles, deselect piece just moved
                 cleanupGhostTile();
                 deselectPiece();
@@ -172,7 +220,7 @@ public class Selection : MonoBehaviour
         
         foreach (var tile in movables)
         {
-            if(gameManager.playerOneTurn){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
+            if(gameManager.gameState == GameManager.GameState.PLAYERONETURN){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
                 if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
                 }
@@ -181,7 +229,7 @@ public class Selection : MonoBehaviour
                     addToGhostList(tile.row, tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
-            else{ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
+            else if(gameManager.gameState == GameManager.GameState.PLAYERTWOTURN){ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
                 if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
                 }

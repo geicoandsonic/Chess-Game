@@ -119,23 +119,16 @@ public class ChessBoardSetup : MonoBehaviour
             switch(unit.getPieceType()){
                 case Unit.Piece.PAWN:
                     return 2;
-                    break;
                 default:
                     return 0;
             }
         }
         if (unit.getFaction() != destination.occupant.getFaction())
         {
-            Debug.Log("Different colors");
             switch(unit.getPieceType()){
                 case Unit.Piece.PAWN: //For pawns, pawn column - destination.colNum, if this is 0 or greater than pawn max striking distance, don't do anything (can't attack forward, 0)
-                    Debug.Log("Pawn case");
-                    Debug.Log("0 case = " + (unit.getCol() - destination.colNum != 0));
-                    Debug.Log("< case = " + (unit.getCol() - destination.colNum <  unit.GetComponent<MovingPawn>().strikingDistance));
-                    Debug.Log("> case = " +  (unit.getCol() - destination.colNum > -unit.GetComponent<MovingPawn>().strikingDistance));
                     if(unit.getCol() - destination.colNum != 0 && (unit.getCol() - destination.colNum < unit.GetComponent<MovingPawn>().strikingDistance || 
                    unit.getCol() - destination.colNum > -unit.GetComponent<MovingPawn>().strikingDistance)){
-                            Debug.Log("Can kill");
                           return 3;
                    }
                    else{

@@ -66,6 +66,11 @@ public class Unit : MonoBehaviour
         return faction;
     }
 
+    public void setPiece(Unit.Piece pieceType){
+        this.pieceType = pieceType;
+        getPieceType();
+    }
+
     public string getFactionString(){
         if(faction == Faction.WHITE){
             return "white";

@@ -146,40 +146,21 @@ public class GeneralMovement: MonoBehaviour
         if(enableSpecial){
             switch(unit.getPieceType()){
                 case Unit.Piece.PAWN:
-                    Debug.Log("In switch for pawn in general");
                     foreach (var move in specialMovements){
-                        //for(int i = 0; i < 1; i++){
                             int tempRow = unit.getRow() + move.x;
                             int tempCol = unit.getCol() + move.y; //Start at unit col over to the right one, the middle, then left
-                            Debug.Log("Current col check: " + tempCol);
-                            Debug.Log("unit column: " + unit.getCol());
                             //check 2 things: the row/col are in bounds, and the path here isn't blocked
                             if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                             {
                                 
                                 int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
                                 //empty tile. can move here and past it
-                                if(code == 0)
+                                if(code == 0 || code == 1 || code == 3) //1, enemy tile. can move here but not past it, probably shouldn't happen for a pawn 3, special case, can attack
                                 {
                                     addTileToLists(tempRow, tempCol);
-                                    Debug.Log("0");
-                                } else if(code == 1) //enemy tile. can move here but not past it, probably shouldn't happen for a pawn
-                                {
-                                Debug.Log("1");
-                                    addTileToLists(tempRow, tempCol);
-                                } else if(code == 2) //friendly tile. can't move here
-                                {
-                                Debug.Log("2");
-                                }
-                                else if(code == 3) // special case, can attack
-                                {
-                                Debug.Log("3");
-                                    addTileToLists(tempRow, tempCol);
-                                }
-                    
+                                }                    
                              }
                             else break;
-                         //}
                     }
                     break;
                 default:
@@ -197,7 +178,8 @@ public class GeneralMovement: MonoBehaviour
             if(destination.occupant == null){ //Pawn is not going to another unit, so it can only move forward, same as the else if below
                 if (validMove(getPossibleMoves(), destination))
                 {
-                    onMove();
+                    onMove(); //Probably write changeMovement in onMove provided it hits a spot to change it, and get the input from a button
+                    //changeMovement(unit,Unit.Piece.QUEEN);
                     Debug.Log("new move method worked, path found for a pawn");
                     return true;
                  }
@@ -266,5 +248,43 @@ public class GeneralMovement: MonoBehaviour
         {
             specialMovements.AddFirst((x, y));
         }
+    }
+
+    public void changeMovement(Unit target, Unit.Piece pieceType){ // Given a target piece and the desired type to change it to, this method switches what type it is.
+        // AddComponent adds the component needed, setPiece tells the unit what piece it now is (very necessary, otherwise a conflict arises) and Destroy removes a(ny?) type of movement from the target.
+        if(target != null){
+            Destroy(target.GetComponent<GeneralMovement>());
+            switch(pieceType){
+                case Unit.Piece.PAWN: //Not sure why you would do this, but maybe in gamemodes where other pieces can change?
+                    target.gameObject.AddComponent<MovingPawn>();
+                    target.setPiece(Unit.Piece.PAWN);
+                    break;
+                case Unit.Piece.KNIGHT:
+                    target.gameObject.AddComponent<MovingKnight>();
+                    target.setPiece(Unit.Piece.KNIGHT);
+                    break;
+                case Unit.Piece.BISHOP:
+                    target.gameObject.AddComponent<MovingBishop>();
+                    target.setPiece(Unit.Piece.BISHOP);
+                    break;
+                case Unit.Piece.ROOK:
+                    target.gameObject.AddComponent<MovingRook>();
+                    target.setPiece(Unit.Piece.ROOK);
+                    break;
+                case Unit.Piece.QUEEN:
+                    target.gameObject.AddComponent<MovingQueen>();
+                    target.setPiece(Unit.Piece.QUEEN);
+                    break;
+                case Unit.Piece.KING: //Should not happen, but may be useful for gamemodes. BE CAREFUL, THIS WILL PROBABLY CHANGE WIN CONDITION UNPREDICTABLY
+                    target.gameObject.AddComponent<MovingKing>();
+                    target.setPiece(Unit.Piece.KING);
+                    break;
+                default:
+                    target.gameObject.AddComponent<MovingPawn>(); //To prevent bugs, give it at least pawn movement
+                    target.setPiece(Unit.Piece.PAWN);
+                    Debug.Log("Default case for changing movement");
+                    break;
+            }
+        }      
     }
 }

@@ -30,6 +30,7 @@ public class TwistGeneration : MonoBehaviour
     void Start()
     {
         //choose the twists to be used
+        //TODO: fix possibility of same twist being chosen twice
         chosenTwists = new Twist[num_twists];
         for(int i=0; i<num_twists; i++)
         {

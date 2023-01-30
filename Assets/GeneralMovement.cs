@@ -163,6 +163,57 @@ public class GeneralMovement: MonoBehaviour
                             else break;
                     }
                     break;
+                case Unit.Piece.KING: //Castling, King's trigger castling
+                    foreach (var move in specialMovements){
+                        int tempRow = unit.getRow() + move.x;
+                        int tempCol = unit.getCol() + move.y; //Start at unit col over to the right one, the middle, then left
+                        bool castling = false;
+                        if(move.y == 2 || move.y == -2){
+                            castling = true;
+                        }
+                        //check 2 things: the row/col are in bounds, and the path here isn't blocked
+                        if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                        {                             
+                           if(castling){ //Need to check that tiles between the target rook are empty
+                                if(move.y < 0){
+                                    for(int i = 1; i < 2; i++){
+                                        int temp = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
+                                        if(temp != 0){
+                                            Debug.Log("Castling broke, move.y < 0 and code was not 0");
+                                            castling = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                else if(move.y > 0){
+                                    for(int i = -1; i > -2; i--){
+                                        int temp2 = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
+                                        if(temp2 != 0){
+                                            Debug.Log("Castling broke, move.y > 0 and code was not 0");
+                                            castling = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if(castling){
+                                    Debug.Log("Castling passed first test, checking rook qualification");
+                                     int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
+                                     Debug.Log("code = " + code);
+                                    //empty tile. can move here and past it
+                                    if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
+                                    {
+                                        Debug.Log("Castle valid");
+                                        addTileToLists(tempRow, tempCol);
+                                    }
+                                }
+                                
+                                
+                           }
+                                               
+                        }
+                        else break;
+                    }
+                    break;
                 default:
                 break;   
                 }

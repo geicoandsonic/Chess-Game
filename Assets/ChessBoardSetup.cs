@@ -139,7 +139,21 @@ public class ChessBoardSetup : MonoBehaviour
             }
             
         }
-        else return 2;
+        else if(destination.occupant.getPieceType() == Unit.Piece.ROOK && unit.getPieceType() == Unit.Piece.KING){ //Same faction, if unit is king and destination is rook, attempt castling
+            Debug.Log("Checking for movement");
+            if(unit.GetComponent<MovingKing>().hasMoved == false && destination.occupant.GetComponent<MovingRook>().hasMoved == false){ //both valid for castling
+                return 3;
+            }
+            else{
+                return 2; //Invalid for one or both of them.
+            }
+
+        }
+
+        else{
+            Debug.Log("dest " + destination.occupant.getPieceType());
+            return 2;
+        }
     }
 
     // Update is called once per frame

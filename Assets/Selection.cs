@@ -219,6 +219,10 @@ public class Selection : MonoBehaviour
             Debug.Log("ghost for pawn");
              movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
         }
+        else if(unit.getPieceType() == Unit.Piece.KING){
+            Debug.Log("ghost for King");
+             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
+        }
         else{
             Debug.Log("ghost else");
              movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();

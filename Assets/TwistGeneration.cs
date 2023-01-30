@@ -12,14 +12,14 @@ public class TwistGeneration : MonoBehaviour
     public Sprite[] twistIcons;
     public TextMeshProUGUI[] twistNames;
 
-    //currently there are:
+    //currently there are: SEE WILDCARDS
     // 29 twists
     public enum Twist {REVOLUTION, CTF, KOTH, WIPEOUT, NO_MANS_LAND, TRENCHES, PESTILENCE, MINESWEEPER,
         SNAKE, X2LONG, X2WIDE, HEARTS_AND_MINDS, BATTLE_ROYALE, WEATHER, FOG_OF_WAR, BOXING, MIRROR,
         BLACK_HOLE, WATER, RIVER, ONE_TWO_PUNCH, ASH_AND_SNOW, NECRONOMICON, STALIN, MERCS,
         ATTRITION, MIAMI, HORDE, ROULETTE};
 
-    //short names for each twist. temporary, will eventually be replaced.
+    //short names for each twist. temporary, will eventually be replaced. SEE WILDCARDS
     private string[] temporaryNames = { "Rev", "CTF", "KOTH", "Wipeout", "NML", "Trench", "Plague", "Sweep",
     "Snake", "Long", "Wide", "H&M", "B.R.", "Weather", "FogOfWar", "Boxing", "Mirror",
     "B.H.", "10in", "River", "1-2", "A&S", "Necro", "Stalin", "Mercs", "Attr.", "Miami", "Undead", "Roulette"};

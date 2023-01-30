@@ -166,7 +166,8 @@ public class GeneralMovement: MonoBehaviour
                 case Unit.Piece.KING: //Castling, King's trigger castling
                     foreach (var move in specialMovements){
                         int tempRow = unit.getRow() + move.x;
-                        int tempCol = unit.getCol() + move.y; //Start at unit col over to the right one, the middle, then left
+                        int tempCol = unit.getCol() + move.y;
+                        int code;
                         bool castling = false;
                         if(move.y == 2 || move.y == -2){
                             castling = true;
@@ -177,34 +178,43 @@ public class GeneralMovement: MonoBehaviour
                            if(castling){ //Need to check that tiles between the target rook are empty
                                 if(move.y < 0){
                                     for(int i = 1; i < 2; i++){
-                                        int temp = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
-                                        if(temp != 0){
-                                            Debug.Log("Castling broke, move.y < 0 and code was not 0");
+                                        code = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
+                                        if(code != 0){
                                             castling = false;
                                             break;
                                         }
                                     }
                                 }
                                 else if(move.y > 0){
-                                    for(int i = -1; i > -2; i--){
-                                        int temp2 = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
-                                        if(temp2 != 0){
-                                            Debug.Log("Castling broke, move.y > 0 and code was not 0");
+                                    for(int i = -1; i > -3; i--){
+                                        code = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
+                                        if(code != 0){
                                             castling = false;
                                             break;
                                         }
                                     }
                                 }
-                                if(castling){
+                                if(castling){ //Having passed the above two, there are no blocks between the king and rook.
                                     Debug.Log("Castling passed first test, checking rook qualification");
-                                     int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
-                                     Debug.Log("code = " + code);
-                                    //empty tile. can move here and past it
-                                    if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
-                                    {
-                                        Debug.Log("Castle valid");
-                                        addTileToLists(tempRow, tempCol);
+                                    if(move.y < 0){ //Going right
+                                        code = board.newTileRelation(unit, board.board[tempRow, unit.getCol() + 3]);
+                                        //empty tile. can move here and past it
+                                        if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
+                                        {
+                                            Debug.Log("Castle valid");
+                                            addTileToLists(tempRow, unit.getCol() + 2);
+                                        }
                                     }
+                                    else if(move.y > 0){ //Going left
+                                        code = board.newTileRelation(unit, board.board[tempRow, unit.getCol() - 4]);
+                                        //empty tile. can move here and past it
+                                        if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
+                                        {
+                                            Debug.Log("Castle valid");
+                                            addTileToLists(tempRow, unit.getCol() - 2);
+                                        }
+                                    }
+                                    
                                 }
                                 
                                 
@@ -230,7 +240,6 @@ public class GeneralMovement: MonoBehaviour
                 if (validMove(getPossibleMoves(), destination))
                 {
                     onMove(); //Probably write changeMovement in onMove provided it hits a spot to change it, and get the input from a button
-                    //changeMovement(unit,Unit.Piece.QUEEN);
                     Debug.Log("new move method worked, path found for a pawn");
                     return true;
                  }
@@ -245,6 +254,15 @@ public class GeneralMovement: MonoBehaviour
                  }
                  return false;
             }
+        }
+        else if(unit.getPieceType() == Unit.Piece.KING){
+            if (validMove(getPossibleMoves(true), destination))
+                {
+                    onMove();
+                    Debug.Log("new move method worked, path found for a king, special move");
+                    return true;
+                 }
+                 return false;
         }
         else if (validMove(getPossibleMoves(), destination))
         {
@@ -299,6 +317,11 @@ public class GeneralMovement: MonoBehaviour
         {
             specialMovements.AddFirst((x, y));
         }
+    }
+
+    public void removeSpecialMovement(int x, int y)
+    {
+        specialMovements.Remove((x, y));
     }
 
     public void changeMovement(Unit target, Unit.Piece pieceType){ // Given a target piece and the desired type to change it to, this method switches what type it is.

@@ -16,6 +16,7 @@ public class Selection : MonoBehaviour
     private GameObject ghostTile;
     private GameObject ghostTileEnemy;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
+    public LinkedList<ChessTile> movables;
     private bool whichTurnIsIt; //Check for which turn it is, so you can defeat pieces.
 
     // Start is called before the first frame update
@@ -214,7 +215,6 @@ public class Selection : MonoBehaviour
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
         Debug.Log(unit.getPieceType());
         cleanupGhostTile();
-        LinkedList<ChessTile> movables;
         if(unit.getPieceType() == Unit.Piece.PAWN){
             Debug.Log("ghost for pawn");
              movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);

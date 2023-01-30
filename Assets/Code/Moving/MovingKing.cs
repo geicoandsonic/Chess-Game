@@ -32,6 +32,8 @@ public class MovingKing : GeneralMovement
     public override void onMove()
     {
         hasMoved = true;
+        removeSpecialMovement(0,2);
+        removeSpecialMovement(0,-2);
         listCleanup();
         //TODO: lose your ability to castle after first move
     }

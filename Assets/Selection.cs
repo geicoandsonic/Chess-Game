@@ -27,7 +27,10 @@ public class Selection : MonoBehaviour
 
     // this is a LAZY AF way of updating the text in the top left, we can improve it later if needed
     void Update()
-    {
+    {        
+    }
+
+    public void updateUI(){
         if (gameManager.selectedTile != null)
         {
             TooltipSelected.text = "Selected: " + gameManager.selectedTile.getName();
@@ -36,8 +39,6 @@ public class Selection : MonoBehaviour
         {
             TooltipSelected.text = "Selected: None";
         }
-
-        
         if (gameManager.playerHasPiece)
         {
             TooltipPiece.text = "Piece: " + gameManager.playerPiece.getFaction().ToString() + " " + 
@@ -47,9 +48,6 @@ public class Selection : MonoBehaviour
             TooltipPiece.text = "Piece: None";
         }
     }
-
-
-
 
     //enable and move the shiny selector box to the specified location
     public void setSelectorPosition(ChessTile ct)
@@ -86,6 +84,7 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
+                    updateUI();
                 }
                 else{
                     Debug.Log("Wrong team!");
@@ -99,6 +98,7 @@ public class Selection : MonoBehaviour
                    Debug.Log("deselect");
                    deselectPiece();
                    makeGhostTiles(ct.occupant);
+                   updateUI();
                 }
                 else if(ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
@@ -112,6 +112,7 @@ public class Selection : MonoBehaviour
                     else{ //Generic piece type
                             emptySelection(ct);
                     }
+                    updateUI();
                 }
                 else //different tile? select the new one
                 {
@@ -119,6 +120,7 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
+                    updateUI();
                 }            
             }
         }
@@ -131,6 +133,7 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
+                    updateUI();
                 }
                 else{
                     Debug.Log("Wrong team!");
@@ -143,6 +146,7 @@ public class Selection : MonoBehaviour
                    Debug.Log("deselect");
                    deselectPiece();
                    makeGhostTiles(ct.occupant);
+                   updateUI();
                 }
                 else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "black"){ //Player two turn, hitting a white piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
@@ -163,6 +167,7 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
+                    updateUI();
                 }            
             }
         }
@@ -193,6 +198,7 @@ public class Selection : MonoBehaviour
                 //delete ghost tiles, deselect piece just moved
                 cleanupGhostTile();
                 deselectPiece();
+                updateUI();
             }
         }
     }

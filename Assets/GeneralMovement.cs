@@ -21,7 +21,7 @@ public class GeneralMovement: MonoBehaviour
     private ChessBoardSetup board;
 
     //private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
-    private LinkedList<ChessTile> chessTileList = new LinkedList<ChessTile>();
+    private LinkedList<(ChessTile tile, int tileType)> chessTileList = new LinkedList<(ChessTile tile, int tileType)>();
 
     public virtual void moveSetup()
     {
@@ -35,10 +35,10 @@ public class GeneralMovement: MonoBehaviour
 
 
     //add to chess tile list (list of chessTiles for your perusal)
-    protected void addTileToLists(int upBy, int rightBy)
+    protected void addTileToLists(int upBy, int rightBy, int tileType)
     {
         if(upBy >= 0 && upBy <= 7 && rightBy >= 0 && rightBy <= 7){
-            chessTileList.AddFirst(board.board[upBy,rightBy]);
+            chessTileList.AddFirst((board.board[upBy,rightBy], tileType));
         }
         
     }
@@ -50,52 +50,7 @@ public class GeneralMovement: MonoBehaviour
         chessTileList.Clear();
     }
 
-    //get all possible tiles this piece could move to next turn.
-    public LinkedList<ChessTile> getPossibleMoves()
-    {
-        unit = GetComponent<Unit>();
-        if(board == null) { board = FindObjectOfType<ChessBoardSetup>(); }
-        listCleanup();
-        foreach (var move in shortMovements)
-        {
-            addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y);
-        }
-        //thoughtful design: are things getting added twice? please check...
-        foreach (var move in longMovements)
-        {
-            for (int i = 1; i <= 8; i++)
-            {
-                int tempRow = unit.getRow() + move.x * i;
-                int tempCol = unit.getCol() + move.y * i;
-                //check 2 things: the row/col are in bounds, and the path here isn't blocked
-                if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
-                {
-
-                    int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
-                    //empty tile. can move here and past it
-                    if(code == 0)
-                    {
-                        addTileToLists(tempRow, tempCol);
-                    } else if(code == 1) //enemy tile. can move here but not past it
-                    {
-                        addTileToLists(tempRow, tempCol);
-                        break;
-                    } else if(code == 2) //friendly tile. can't move here
-                    {
-                        break;
-                    }
-                    
-                }
-                else break;
-                
-                //if(board[tempRow, tempCol])
-            }
-        }
-        return chessTileList;
-        
-    }
-
-    public LinkedList<ChessTile> getPossibleMoves(bool enableSpecial)
+    public LinkedList<(ChessTile tile, int tileType)> getPossibleMoves(bool enableSpecial)
     {
         unit = GetComponent<Unit>();
         if(board == null) { board = FindObjectOfType<ChessBoardSetup>(); }
@@ -105,11 +60,11 @@ public class GeneralMovement: MonoBehaviour
             //this is adding extra movement for pawn so the middle piece reports as an enemy.
             if(unit.getPieceType() == Unit.Piece.PAWN){
                 if(board.board[unit.getRow() + move.x, unit.getCol() + move.y].occupant == null){
-                    addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y);
+                    addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0);
                 }
             }
             else{
-                addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y);
+                addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0);
             }           
         }
         //thoughtful design: are things getting added twice? please check...
@@ -127,10 +82,10 @@ public class GeneralMovement: MonoBehaviour
                     //empty tile. can move here and past it
                     if(code == 0)
                     {
-                        addTileToLists(tempRow, tempCol);
+                        addTileToLists(tempRow, tempCol,0);
                     } else if(code == 1) //enemy tile. can move here but not past it
                     {
-                        addTileToLists(tempRow, tempCol);
+                        addTileToLists(tempRow, tempCol,1);
                         break;
                     } else if(code == 2) //friendly tile. can't move here
                     {
@@ -157,7 +112,7 @@ public class GeneralMovement: MonoBehaviour
                                 //empty tile. can move here and past it
                                 if(code == 0 || code == 1 || code == 3) //1, enemy tile. can move here but not past it, probably shouldn't happen for a pawn 3, special case, can attack
                                 {
-                                    addTileToLists(tempRow, tempCol);
+                                    addTileToLists(tempRow, tempCol,0);
                                 }                    
                              }
                             else break;
@@ -195,15 +150,13 @@ public class GeneralMovement: MonoBehaviour
                                     }
                                 }
                                 if(castling){ //Having passed the above two, there are no blocks between the king and rook.
-                                    Debug.Log("Castling passed first test, checking rook qualification");
                                     if(move.y < 0){ //Going right
                                         code = board.newTileRelation(unit, board.board[tempRow, unit.getCol() + 3]);
                                         //empty tile. can move here and past it
                                         if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
                                         {
-                                            Debug.Log("Castle valid");
                                             //unit.GetComponent<MovingKing>().castleRook = board.board[tempRow, unit.getCol() + 3].occupant.GetComponent<MovingRook>();
-                                            addTileToLists(tempRow, unit.getCol() + 2);
+                                            addTileToLists(tempRow, unit.getCol() + 2,2);
                                         }
                                     }
                                     else if(move.y > 0){ //Going left
@@ -212,7 +165,7 @@ public class GeneralMovement: MonoBehaviour
                                         if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
                                         {
                                             Debug.Log("Castle valid");
-                                            addTileToLists(tempRow, unit.getCol() - 2);
+                                            addTileToLists(tempRow, unit.getCol() - 2,2);
                                         }
                                     }
                                     
@@ -234,52 +187,23 @@ public class GeneralMovement: MonoBehaviour
 
 
     //move the tile to an empty destination
-    public bool attemptMove2(ChessTile destination)
-    {
-        if(unit.getPieceType() == Unit.Piece.PAWN){ //Pawn has special cases, shouldn't add moves that won't normally work (diagonals)
-            if(destination.occupant == null){ //Pawn is not going to another unit, so it can only move forward, same as the else if below
-                if (validMove(getPossibleMoves(), destination))
-                {
-                    onMove(); //Probably write changeMovement in onMove provided it hits a spot to change it, and get the input from a button
-                    Debug.Log("new move method worked, path found for a pawn");
-                    return true;
-                 }
-                 return false;
-            }
-            else{ //Pawn is seeing another unit (HAS NOT DIFFERENTIATED WHITE OR BLACK YET)
-                if (validMove(getPossibleMoves(true), destination))
-                {
-                    onMove();
-                    Debug.Log("new move method worked, path found for a pawn, special move");
-                    return true;
-                 }
-                 return false;
-            }
-        }
-        else if(unit.getPieceType() == Unit.Piece.KING){
-            if (validMove(getPossibleMoves(true), destination))
-                {
-                    onMove();
-                    Debug.Log("new move method worked, path found for a king, special move");
-                    return true;
-                 }
-                 return false;
-        }
-        else if (validMove(getPossibleMoves(), destination))
+    public bool attemptMove(ChessTile destination, LinkedList<(ChessTile tile, int tileType)> movables)
+    {       
+        if (validMove(movables, destination)) //was an else if
         {
+            unit.overrideMovement(destination);
             onMove();
-            Debug.Log("new move method worked, path found");
             return true;
         }
         return false;
     }
 
     //basically a rewrite of the "contains" method.
-    private bool validMove(LinkedList<ChessTile> possible, ChessTile dest)
+    private bool validMove(LinkedList<(ChessTile tile, int tileType)> possible, ChessTile dest)
     {
-        foreach(ChessTile possibleMove in possible){
+        foreach(var possibleMove in possible){
             Debug.Log(dest.getName());
-            if (possibleMove.getName().Equals(dest.getName())) return true;
+            if (possibleMove.tile.getName().Equals(dest.getName())) return true;
         }
         return false;
     }

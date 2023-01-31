@@ -15,8 +15,9 @@ public class Selection : MonoBehaviour
     private ChessBoardSetup board;
     private GameObject ghostTile;
     private GameObject ghostTileEnemy;
+    private GameObject ghostTileSpecial;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
-    public LinkedList<ChessTile> movables;
+    public LinkedList<(ChessTile tile,int tileType)> movables = new LinkedList<(ChessTile tile, int tileType)>();
     private bool whichTurnIsIt; //Check for which turn it is, so you can defeat pieces.
 
     // Start is called before the first frame update
@@ -103,12 +104,10 @@ public class Selection : MonoBehaviour
                 }
                 else if(ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
-                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
-                         // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
+                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
+                        //King should not be able to attack if it will be in danger for doing so
+                        //Need to check if the move is castling. If it is, move both king and the selected rook
                         emptySelection(ct);
-                    }
-                    else if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
-                    
                     }
                     else{ //Generic piece type
                             emptySelection(ct);
@@ -151,12 +150,9 @@ public class Selection : MonoBehaviour
                 }
                 else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "black"){ //Player two turn, hitting a white piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
-                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.PAWN){ //We have a pawn
-                         // Pawn has a few special cases. Pawns can only kill diagonally, and also have E.P. rule
+                    if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
+                        //King should not be able to attack if it will be in danger for doing so
                         emptySelection(ct);
-                    }
-                    else if(gameManager.playerPiece.getPieceType() == Unit.Piece.KING){ //We have a king
-                    
                     }
                     else{ //Generic piece type
                             emptySelection(ct);
@@ -192,7 +188,7 @@ public class Selection : MonoBehaviour
         if (gameManager.playerHasPiece)
         {
             Debug.Log("Taking move " + ct.getName());
-            if (gameManager.playerPiece.takeMove(ct.row, ct.colNum, ct))
+            if (gameManager.playerPiece.GetComponent<GeneralMovement>().attemptMove(ct,movables))
             {
                 //Invert turn
                 gameManager.changeGameState();
@@ -213,39 +209,36 @@ public class Selection : MonoBehaviour
     {
         if (ghostTile == null) { ghostTile = GameObject.FindWithTag("ghostTile"); }
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
+        if (ghostTileSpecial == null) { ghostTileSpecial = GameObject.FindWithTag("ghostTileSpecial"); }
         Debug.Log(unit.getPieceType());
         cleanupGhostTile();
-        if(unit.getPieceType() == Unit.Piece.PAWN){
-            Debug.Log("ghost for pawn");
-             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
-        }
-        else if(unit.getPieceType() == Unit.Piece.KING){
-            Debug.Log("ghost for King");
-             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
-        }
-        else{
-            Debug.Log("ghost else");
-             movables = unit.GetComponent<GeneralMovement>().getPossibleMoves();
-        }
+        movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
         
-        foreach (var tile in movables)
+        foreach (var chessTile in movables)
         {
             if(gameManager.gameState == GameManager.GameState.PLAYERONETURN){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
-                if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
-                    addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
+                if(chessTile.tileType == 2){
+                    Debug.Log(chessTile.tileType);
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
                 }
-                else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "white"){
+                else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant == null){
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
+                }
+                else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "white"){
                     Debug.Log("Looking at enemy for white");
-                    addToGhostList(tile.row, tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
             else if(gameManager.gameState == GameManager.GameState.PLAYERTWOTURN){ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
-                if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant == null){
-                    addToGhostList(tile.row, tile.colNum,0); //Number indicates its a blue ghost tile
+                if(chessTile.tileType == 2){
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
                 }
-                else if(board.board[tile.row,tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "black"){
+                else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant == null){
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
+                }
+                else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "black"){
                     Debug.Log("Looking at enemy for black");
-                    addToGhostList(tile.row, tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
             
@@ -261,8 +254,10 @@ public class Selection : MonoBehaviour
             gt = GameObject.Instantiate(ghostTile);
             break;
             case 1: //red tile for enemy
-            Debug.Log("Enemy tile");
             gt = GameObject.Instantiate(ghostTileEnemy);
+            break;
+            case 2: //yellow tile for special move
+            gt = GameObject.Instantiate(ghostTileSpecial);
             break;
             default: //Shouldn't occur, may be responsible for extra tiles if done incorrectly
             gt = GameObject.Instantiate(ghostTile);

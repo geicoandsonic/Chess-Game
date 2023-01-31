@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c9a95be13bc4a4a8076fd057f9af30, type: 3}
   m_Name: Capture the Flag
   m_EditorClassIdentifier: 
-  cardName: 
-  description: 
+  cardName: Capture the Flag
+  description: "\u201CThe Flag\u201D will be randomly placed on the back row of each
+    player. You can capture the enemy flag and bring it back to your own row to bring
+    back a dead piece of your choice."
+  effectsParticularPiece: 0
+  piece: {fileID: 0}

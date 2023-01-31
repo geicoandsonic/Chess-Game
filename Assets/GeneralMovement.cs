@@ -202,6 +202,7 @@ public class GeneralMovement: MonoBehaviour
                                         if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
                                         {
                                             Debug.Log("Castle valid");
+                                            //unit.GetComponent<MovingKing>().castleRook = board.board[tempRow, unit.getCol() + 3].occupant.GetComponent<MovingRook>();
                                             addTileToLists(tempRow, unit.getCol() + 2);
                                         }
                                     }

@@ -119,5 +119,12 @@ public class Unit : MonoBehaviour
         }
         return false;
     }
+
+    public void overrideMovement(int x, int y, ChessTile destination){
+        location.occupant = null;
+        location = destination;
+        location.occupant = this;
+        gameObject.transform.position = new Vector3(1.5f * location.row, 0, -1.5f * location.colNum);
+    }
     
 }

@@ -210,7 +210,7 @@ public class Selection : MonoBehaviour
         if (ghostTile == null) { ghostTile = GameObject.FindWithTag("ghostTile"); }
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
         if (ghostTileSpecial == null) { ghostTileSpecial = GameObject.FindWithTag("ghostTileSpecial"); }
-        Debug.Log(unit.getPieceType());
+        //Debug.Log(unit.getPieceType());
         cleanupGhostTile();
         movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
         

@@ -12,13 +12,18 @@ public class GeneralMovement: MonoBehaviour
     /*LONG movement: dictates where you can move "any amount" in
      ex: rooks have long movement in [1,0], [0,1], [0,-1], [-1,0]
      bishops have long movement in [1,1], [1,-1], [-1,1], [-1,-1]
-     queens have all 8 of these.*/
+     queens have all 8 of these.
+     
+     SPECIAL movement: movement is only valid if certain conditions are met (defined
+     by the boolean method passed in with this movement.)*/
+    public delegate bool Validity_Checker();
+
     public LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
     public LinkedList<(int x, int y)> longMovements = new LinkedList<(int x, int y)>();
-    public LinkedList<(int x, int y)> specialMovements = new LinkedList<(int x, int y)>();
+    public LinkedList<(int x, int y, Validity_Checker vc)> specialMovements = new LinkedList<(int x, int y, Validity_Checker vc)>();
     //[SerializeField] private GameObject ghostTile;
-    [SerializeField] private Unit unit;
-    private ChessBoardSetup board;
+    [SerializeField] protected Unit unit;
+    protected ChessBoardSetup board;
 
     //private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
     private LinkedList<(ChessTile tile, int tileType)> chessTileList = new LinkedList<(ChessTile tile, int tileType)>();
@@ -31,6 +36,12 @@ public class GeneralMovement: MonoBehaviour
     public virtual void onMove()
     {
         //override with what this piece does, if anything, when it moves.
+    }
+
+    void Start()
+    {
+        unit = GetComponent<Unit>();
+        board = FindObjectOfType<ChessBoardSetup>();
     }
 
 
@@ -52,8 +63,6 @@ public class GeneralMovement: MonoBehaviour
 
     public LinkedList<(ChessTile tile, int tileType)> getPossibleMoves(bool enableSpecial)
     {
-        unit = GetComponent<Unit>();
-        if(board == null) { board = FindObjectOfType<ChessBoardSetup>(); }
         listCleanup();
         foreach (var move in shortMovements)
         {
@@ -98,8 +107,9 @@ public class GeneralMovement: MonoBehaviour
                 //if(board[tempRow, tempCol])
             }
         }
-        if(enableSpecial){
-            switch(unit.getPieceType()){
+        if (enableSpecial)
+        {
+            /*switch(unit.getPieceType()){
                 case Unit.Piece.PAWN:
                     foreach (var move in specialMovements){
                             int tempRow = unit.getRow() + move.x;
@@ -180,7 +190,21 @@ public class GeneralMovement: MonoBehaviour
                     break;
                 default:
                 break;   
+                */
+            foreach (var move in specialMovements)
+            {
+                //CALL the validity checker associated with this movement. if true, then it could be valid
+                if(move.vc())
+                {
+                    int tempRow = unit.getRow() + move.x;
+                    int tempCol = unit.getCol() + move.y;
+                    //we still have to check if the potential location would be in bounds
+                    if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                    {
+                        addTileToLists(tempRow, tempCol, 0);
+                    }
                 }
+            }
         }
         return chessTileList;
     }
@@ -236,17 +260,18 @@ public class GeneralMovement: MonoBehaviour
         longMovements.Remove((x, y));
     }
 
-    public void addSpecialMovement(int x, int y){
+    public void addSpecialMovement(int x, int y, Validity_Checker vc)
+    {
         //no duplicates!
-        if (!specialMovements.Contains((x, y)))
+        if (!specialMovements.Contains((x, y, vc)))
         {
-            specialMovements.AddFirst((x, y));
+            specialMovements.AddFirst((x, y, vc));
         }
     }
 
-    public void removeSpecialMovement(int x, int y)
+    public void removeSpecialMovement(int x, int y, Validity_Checker vc)
     {
-        specialMovements.Remove((x, y));
+        specialMovements.Remove((x, y, vc));
     }
 
     public void changeMovement(Unit target, Unit.Piece pieceType){ // Given a target piece and the desired type to change it to, this method switches what type it is.

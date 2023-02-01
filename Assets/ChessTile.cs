@@ -74,4 +74,18 @@ public class ChessTile : MonoBehaviour
     {
         
     }
+
+    //returns the chessTile in "board" up and right by specified amounts
+    public ChessTile getTileRelativeToMe(int upBy, int rightBy)
+    {
+        if (row + upBy >= 0 && row + upBy <= 7 && (colNum + rightBy >= 0 && colNum + rightBy <= 7))
+        {
+            return board.board[row + upBy, colNum + rightBy];
+        }
+        else
+        {
+            Debug.Log("Couldn't find chess tile!");
+            return null;
+        }
+    }
 }

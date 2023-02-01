@@ -116,16 +116,17 @@ public class ChessBoardSetup : MonoBehaviour
     {
         if(destination.occupant == null)
         {
-            switch(unit.getPieceType()){
+            /*switch(unit.getPieceType()){
                 case Unit.Piece.PAWN:
                     return 2;
                 default:
                     return 0;
-            }
+            }*/
+            return 0;
         }
         if (unit.getFaction() != destination.occupant.getFaction())
         {
-            switch(unit.getPieceType()){
+            /*switch(unit.getPieceType()){
                 case Unit.Piece.PAWN: //For pawns, pawn column - destination.colNum, if this is 0 or greater than pawn max striking distance, don't do anything (can't attack forward, 0)
                     if(unit.getCol() - destination.colNum != 0 && (unit.getCol() - destination.colNum < unit.GetComponent<MovingPawn>().strikingDistance || 
                    unit.getCol() - destination.colNum > -unit.GetComponent<MovingPawn>().strikingDistance)){
@@ -136,10 +137,11 @@ public class ChessBoardSetup : MonoBehaviour
                    }
                 default:
                     return 1;
-            }
+            }*/
+            return 1;
             
         }
-        else if(destination.occupant.getPieceType() == Unit.Piece.ROOK && unit.getPieceType() == Unit.Piece.KING){ //Same faction, if unit is king and destination is rook, attempt castling
+        /*else if(destination.occupant.getPieceType() == Unit.Piece.ROOK && unit.getPieceType() == Unit.Piece.KING){ //Same faction, if unit is king and destination is rook, attempt castling
             Debug.Log("Checking for movement");
             if(unit.GetComponent<MovingKing>().hasMoved == false && destination.occupant.GetComponent<MovingRook>().hasMoved == false){ //both valid for castling
                 return 3;
@@ -148,10 +150,10 @@ public class ChessBoardSetup : MonoBehaviour
                 return 2; //Invalid for one or both of them.
             }
 
-        }
+        }*/
 
         else{
-            Debug.Log("dest " + destination.occupant.getPieceType());
+            //Debug.Log("dest " + destination.occupant.getPieceType());
             return 2;
         }
     }

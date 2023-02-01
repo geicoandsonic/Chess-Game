@@ -56,6 +56,8 @@ public class ChessBoardSetup : MonoBehaviour
         blackArmy = new GameObject();
         whiteArmy.name = "whiteArmy";
         blackArmy.name = "blackArmy";
+        whiteArmy.tag = "whiteArmy";
+        blackArmy.tag = "blackArmy";
 
         //in setup phase, just copy a "template" of each piece.
         GameObject templatePawnWhite = basePieces.transform.GetChild(0).gameObject;

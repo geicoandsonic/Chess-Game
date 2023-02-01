@@ -13,7 +13,8 @@ public class Unit : MonoBehaviour
     //private int row, col;
     private Faction faction;
     public GeneralMovement movement;
-
+    public GameObject storeUnit; //Unit that is stored when checking if king is in check
+    public ChessTile prevLoc; //Chess tile stored for checking if king is in check;
     public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
         pieceType = pieceT;

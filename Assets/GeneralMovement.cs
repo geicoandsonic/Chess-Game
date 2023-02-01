@@ -212,12 +212,87 @@ public class GeneralMovement: MonoBehaviour
         return chessTileList;
     }
 
+    public int isKingInCheck()
+    {
+        listCleanup();
+        foreach (var move in shortMovements)
+        {
+            //this is adding extra movement for pawn so the middle piece reports as an enemy.
+            if(unit.getPieceType() == Unit.Piece.PAWN){
+                if(board.newTileRelation(unit, board.board[unit.getRow() + move.x, unit.getCol() + move.y]) == -1){
+                    return -1;
+                }
+            }
+            else{
+               int tempRow = unit.getRow() + move.x;
+               int tempCol = unit.getCol() + move.y;
+               //check 2 things: the row/col are in bounds, and the path here isn't blocked
+                if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                {
+                    if(board.newTileRelation(unit, board.board[tempRow, tempCol]) == -1){
+                        return -1;
+                    }                    
+                }
+            }           
+        }
+        //thoughtful design: are things getting added twice? please check...
+        foreach (var move in longMovements)
+        {
+            for (int i = 1; i <= 8; i++)
+            {
+                int tempRow = unit.getRow() + move.x * i;
+                int tempCol = unit.getCol() + move.y * i;
+                //check 2 things: the row/col are in bounds, and the path here isn't blocked
+                if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                {
+                    if(board.newTileRelation(unit, board.board[tempRow, tempCol]) == -1){
+                        return -1;
+                    }                    
+                }
+                else break;
+            }
+        }
+        foreach (var move in specialMovements)
+            {
+                //CALL the validity checker associated with this movement. if true, then it could be valid
+                if(move.vc())
+                {
+                    int tempRow = unit.getRow() + move.x;
+                    int tempCol = unit.getCol() + move.y;
+                    //we still have to check if the potential location would be in bounds
+                    if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
+                    {
+                        if(board.newTileRelation(unit, board.board[tempRow, tempCol]) == -1){ //King would be in check
+                            return -1;
+                        }                      
+                    }
+                }
+            }
+        return 0;
+    }
+
 
     //move the tile to an empty destination
     public bool attemptMove(ChessTile destination, LinkedList<(ChessTile tile, int tileType)> movables)
     {       
         if (validMove(movables, destination)) //was an else if
         {
+            GameObject white = GameObject.FindWithTag("whiteArmy");
+            GameObject black = GameObject.FindWithTag("blackArmy");
+            if(unit.getFaction() == Unit.Faction.WHITE){ //Current unit is white, check black pieces for check on white king
+                for(int i = 0; i < black.transform.childCount; i++){
+                    if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                        Debug.Log("White King is in check by " + black.transform.GetChild(i).GetComponent<Unit>().getPieceType());
+                    }
+                }
+            }
+            else if(unit.getFaction() == Unit.Faction.BLACK){ //Current unit is black, check white pieces for check on black king
+                for(int i = 0; i < white.transform.childCount; i++){
+                    if(white.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                        Debug.Log("Black King is in check by " + white.transform.GetChild(i).GetComponent<Unit>().getPieceType());
+                    }
+                }
+            }
             unit.overrideMovement(destination);
             onMove();
             return true;

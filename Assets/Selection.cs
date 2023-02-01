@@ -100,7 +100,6 @@ public class Selection : MonoBehaviour
                    Debug.Log("deselect");
                    deselectPiece();
                    makeGhostTiles(ct.occupant);
-                   updateUI();
                 }
                 else if(ct.occupant.getFactionString() != "white"){ //Player one turn, hitting a black piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
@@ -110,9 +109,8 @@ public class Selection : MonoBehaviour
                         emptySelection(ct);
                     }
                     else{ //Generic piece type
-                            emptySelection(ct);
+                         emptySelection(ct);
                     }
-                    updateUI();
                 }
                 else //different tile? select the new one
                 {
@@ -120,7 +118,6 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
-                    updateUI();
                 }            
             }
         }
@@ -133,7 +130,6 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
-                    updateUI();
                 }
                 else{
                     Debug.Log("Wrong team!");
@@ -146,7 +142,6 @@ public class Selection : MonoBehaviour
                    Debug.Log("deselect");
                    deselectPiece();
                    makeGhostTiles(ct.occupant);
-                   updateUI();
                 }
                 else if(gameManager.playerOneTurn && ct.occupant.getFactionString() != "black"){ //Player two turn, hitting a white piece
                     //Need to check what piece we have. Pawn and King have unique checks (pawns can't attack forward, king's can't attack if it puts you in check)
@@ -155,7 +150,7 @@ public class Selection : MonoBehaviour
                         emptySelection(ct);
                     }
                     else{ //Generic piece type
-                            emptySelection(ct);
+                        emptySelection(ct);
                     }
                 }
                 else //different tile? select the new one
@@ -164,12 +159,10 @@ public class Selection : MonoBehaviour
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
-                    updateUI();
                 }            
             }
         }
-        
-        
+        updateUI();       
     }
 
     //deselect the piece at this position
@@ -187,13 +180,11 @@ public class Selection : MonoBehaviour
 
         if (gameManager.playerHasPiece)
         {
-            Debug.Log("Taking move " + ct.getName());
             if (gameManager.playerPiece.GetComponent<GeneralMovement>().attemptMove(ct,movables))
             {
                 //Invert turn
                 gameManager.changeGameState();
                 //delete ghost tiles, deselect piece just moved
-                cleanupGhostTile();
                 deselectPiece();
                 updateUI();
             }

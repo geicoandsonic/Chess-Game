@@ -99,6 +99,9 @@ public class GeneralMovement: MonoBehaviour
                     } else if(code == 2) //friendly tile. can't move here
                     {
                         break;
+                    } else if(code == -1) //Opposite king is now in check if moved here
+                    {
+                        addTileToLists(tempRow, tempCol, -1);
                     }
                     
                 }
@@ -201,7 +204,7 @@ public class GeneralMovement: MonoBehaviour
                     //we still have to check if the potential location would be in bounds
                     if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                     {
-                        addTileToLists(tempRow, tempCol, 2);
+                        addTileToLists(tempRow, tempCol, 2);                       
                     }
                 }
             }

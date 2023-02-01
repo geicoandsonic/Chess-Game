@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovingKing : GeneralMovement
 {
     public bool hasMoved;
+    public bool isInCheck;
     void Awake()
     {
         moveSetup();

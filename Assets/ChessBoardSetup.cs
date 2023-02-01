@@ -126,6 +126,9 @@ public class ChessBoardSetup : MonoBehaviour
         }
         if (unit.getFaction() != destination.occupant.getFaction())
         {
+            if(destination.occupant.getPieceType() == Unit.Piece.KING){ //This piece, on its next turn, could kill the king, i.e. the king is in "check"
+                return -1;
+            }
             /*switch(unit.getPieceType()){
                 case Unit.Piece.PAWN: //For pawns, pawn column - destination.colNum, if this is 0 or greater than pawn max striking distance, don't do anything (can't attack forward, 0)
                     if(unit.getCol() - destination.colNum != 0 && (unit.getCol() - destination.colNum < unit.GetComponent<MovingPawn>().strikingDistance || 

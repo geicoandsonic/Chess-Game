@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovingPawn : GeneralMovement
 {
     [SerializeField] private bool isWhitePawn;
+    [SerializeField] private bool justMoved2; //Boolean to check if the pawn moved 2 squares 
     public int strikingDistance = 1;
     void Awake(){
         moveSetup();
@@ -56,6 +57,7 @@ public class MovingPawn : GeneralMovement
         if ((dest1 != null && board.newTileRelation(unit, dest1) == 0) &&
            (dest2 != null && board.newTileRelation(unit, dest2) == 0))
         {
+            justMoved2 = true;
             return true;
         }
         return false;

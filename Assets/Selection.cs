@@ -16,6 +16,7 @@ public class Selection : MonoBehaviour
     private GameObject ghostTile;
     private GameObject ghostTileEnemy;
     private GameObject ghostTileSpecial;
+    private GameObject ghostTileCheck;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
     public LinkedList<(ChessTile tile,int tileType)> movables = new LinkedList<(ChessTile tile, int tileType)>();
     private bool whichTurnIsIt; //Check for which turn it is, so you can defeat pieces.
@@ -201,6 +202,7 @@ public class Selection : MonoBehaviour
         if (ghostTile == null) { ghostTile = GameObject.FindWithTag("ghostTile"); }
         if (ghostTileEnemy == null) { ghostTileEnemy = GameObject.FindWithTag("ghostTileEnemy"); }
         if (ghostTileSpecial == null) { ghostTileSpecial = GameObject.FindWithTag("ghostTileSpecial"); }
+        if (ghostTileCheck == null) { ghostTileCheck = GameObject.FindWithTag("ghostTileCheck"); }
         //Debug.Log(unit.getPieceType());
         cleanupGhostTile();
         movables = unit.GetComponent<GeneralMovement>().getPossibleMoves(true);
@@ -211,6 +213,9 @@ public class Selection : MonoBehaviour
                 if(chessTile.tileType == 2){
                     Debug.Log(chessTile.tileType);
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
+                }
+                else if(chessTile.tileType == -1){ //King in check
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,-1); //King in check
                 }
                 else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
@@ -223,6 +228,9 @@ public class Selection : MonoBehaviour
             else if(gameManager.gameState == GameManager.GameState.PLAYERTWOTURN){ //Black chess is playing, should not show valid move if on a black piece (UNLESS CASTLING)
                 if(chessTile.tileType == 2){
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
+                }
+                else if(chessTile.tileType == -1){ //King in check
+                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,-1); //King in check
                 }
                 else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
@@ -241,6 +249,9 @@ public class Selection : MonoBehaviour
         GameObject gt;
         switch(tileType)
         {
+            case -1: //pink tile for king in check from this move
+            gt = GameObject.Instantiate(ghostTileSpecial);
+            break;
             case 0: //add to ghost tile list (blue square object showing where you can move)
             gt = GameObject.Instantiate(ghostTile);
             break;

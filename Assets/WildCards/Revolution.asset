@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45c9a95be13bc4a4a8076fd057f9af30, type: 3}
   m_Name: Revolution
   m_EditorClassIdentifier: 
-  cardName: 
-  description: 
+  cardName: Revolution
+  description: Adds the Red team to the center of the board, with only panws.  It
+    plays after all players. It has no objective other than causing chaos, trying
+    to checkmate both players.
+  effectsParticularPiece: 0
+  piece: {fileID: 0}

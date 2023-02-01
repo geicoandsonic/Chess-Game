@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     private ChessTile location;
     //private int row, col;
     private Faction faction;
-    private GeneralMovement movement;
+    public GeneralMovement movement;
 
     public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
@@ -98,7 +98,7 @@ public class Unit : MonoBehaviour
         return location.colNum;
     }
 
-    public bool takeMove(int x, int y, ChessTile destination){
+    /*public bool takeMove(ChessTile destination){
         movement = gameObject.GetComponent<GeneralMovement>();
 
         if(movement.attemptMove2(destination.GetComponent<ChessTile>()))
@@ -118,9 +118,13 @@ public class Unit : MonoBehaviour
             Debug.Log("Invalid Movement!");
         }
         return false;
-    }
+    }*/
 
-    public void overrideMovement(int x, int y, ChessTile destination){
+    public void overrideMovement(ChessTile destination){
+        if(destination.occupant != null){
+            Destroy(destination.occupant.gameObject);
+            destination.occupant = null;
+        }
         location.occupant = null;
         location = destination;
         location.occupant = this;

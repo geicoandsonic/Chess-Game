@@ -47,7 +47,7 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        movement = GetComponent<GeneralMovement>();
     }
 
     // Update is called once per frame

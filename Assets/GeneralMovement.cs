@@ -201,7 +201,7 @@ public class GeneralMovement: MonoBehaviour
                     //we still have to check if the potential location would be in bounds
                     if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                     {
-                        addTileToLists(tempRow, tempCol, 0);
+                        addTileToLists(tempRow, tempCol, 2);
                     }
                 }
             }

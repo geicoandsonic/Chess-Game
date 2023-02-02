@@ -17,16 +17,19 @@ public class GeneralMovement: MonoBehaviour
      SPECIAL movement: movement is only valid if certain conditions are met (defined
      by the boolean method passed in with this movement.)*/
     public delegate bool Validity_Checker();
+    public delegate void Special_Action();
 
     public LinkedList<(int x, int y)> shortMovements = new LinkedList<(int x, int y)>();
     public LinkedList<(int x, int y)> longMovements = new LinkedList<(int x, int y)>();
-    public LinkedList<(int x, int y, Validity_Checker vc)> specialMovements = new LinkedList<(int x, int y, Validity_Checker vc)>();
+    public LinkedList<(int x, int y, Validity_Checker vc, Special_Action action)> specialMovements = 
+        new LinkedList<(int x, int y, Validity_Checker vc, Special_Action action)>();
     //[SerializeField] private GameObject ghostTile;
     [SerializeField] protected Unit unit;
     protected ChessBoardSetup board;
 
     //private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
-    private LinkedList<(ChessTile tile, int tileType)> chessTileList = new LinkedList<(ChessTile tile, int tileType)>();
+    private LinkedList<(ChessTile tile, int tileType, Special_Action action)> chessTileList = 
+        new LinkedList<(ChessTile tile, int tileType, Special_Action action)>();
 
     public virtual void moveSetup()
     {
@@ -46,10 +49,10 @@ public class GeneralMovement: MonoBehaviour
 
 
     //add to chess tile list (list of chessTiles for your perusal)
-    protected void addTileToLists(int upBy, int rightBy, int tileType)
+    protected void addTileToLists(int upBy, int rightBy, int tileType, Special_Action action)
     {
         if(upBy >= 0 && upBy <= 7 && rightBy >= 0 && rightBy <= 7){
-            chessTileList.AddFirst((board.board[upBy,rightBy], tileType));
+            chessTileList.AddFirst((board.board[upBy,rightBy], tileType, action));
         }
         
     }
@@ -61,7 +64,7 @@ public class GeneralMovement: MonoBehaviour
         chessTileList.Clear();
     }
 
-    public LinkedList<(ChessTile tile, int tileType)> getPossibleMoves(bool enableSpecial)
+    public LinkedList<(ChessTile tile, int tileType, Special_Action action)> getPossibleMoves(bool enableSpecial)
     {
         listCleanup();
         foreach (var move in shortMovements)
@@ -69,11 +72,11 @@ public class GeneralMovement: MonoBehaviour
             //this is adding extra movement for pawn so the middle piece reports as an enemy.
             if(unit.getPieceType() == Unit.Piece.PAWN){
                 if(board.board[unit.getRow() + move.x, unit.getCol() + move.y].occupant == null){
-                    addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0);
+                    addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0, null);
                 }
             }
             else{
-                addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0);
+                addTileToLists(unit.getRow() + move.x, unit.getCol() + move.y, 0, null);
             }           
         }
         //thoughtful design: are things getting added twice? please check...
@@ -91,17 +94,17 @@ public class GeneralMovement: MonoBehaviour
                     //empty tile. can move here and past it
                     if(code == 0)
                     {
-                        addTileToLists(tempRow, tempCol,0);
+                        addTileToLists(tempRow, tempCol,0,null);
                     } else if(code == 1) //enemy tile. can move here but not past it
                     {
-                        addTileToLists(tempRow, tempCol,1);
+                        addTileToLists(tempRow, tempCol,1,null);
                         break;
                     } else if(code == 2) //friendly tile. can't move here
                     {
                         break;
                     } else if(code == -1) //Opposite king is now in check if moved here
                     {
-                        addTileToLists(tempRow, tempCol, -1);
+                        addTileToLists(tempRow, tempCol, -1, null);
                     }
                     
                 }
@@ -122,7 +125,7 @@ public class GeneralMovement: MonoBehaviour
                     //we still have to check if the potential location would be in bounds
                     if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                     {
-                        addTileToLists(tempRow, tempCol, 2);                       
+                        addTileToLists(tempRow, tempCol, 2, move.action);                       
                     }
                 }
             }
@@ -199,7 +202,7 @@ public class GeneralMovement: MonoBehaviour
 
 
     //move the tile to an empty destination
-    public bool attemptMove(ChessTile destination, LinkedList<(ChessTile tile, int tileType)> movables)
+    public bool attemptMove(ChessTile destination, LinkedList<(ChessTile tile, int tileType, Special_Action action)> movables)
     {       
         if (validMove(movables, destination)) //was an else if
         {
@@ -211,8 +214,16 @@ public class GeneralMovement: MonoBehaviour
         return false;
     }
 
+    private void runSpecialAction((ChessTile, int, Special_Action action) move)
+    {
+        if(move.action != null)
+        {
+            move.action();
+        }
+    }
+
     //basically a rewrite of the "contains" method.
-    private bool validMove(LinkedList<(ChessTile tile, int tileType)> possible, ChessTile dest)
+    private bool validMove(LinkedList<(ChessTile tile, int tileType, Special_Action action)> possible, ChessTile dest)
     {
         bool valid = true;
         foreach(var possibleMove in possible){
@@ -239,6 +250,7 @@ public class GeneralMovement: MonoBehaviour
             unit.resetPosition();
             if (possibleMove.tile.getName().Equals(dest.getName()) && valid){
                 Debug.Log("Valid move");
+                runSpecialAction(possibleMove);
                 return true;
             }
         }
@@ -273,18 +285,18 @@ public class GeneralMovement: MonoBehaviour
         longMovements.Remove((x, y));
     }
 
-    public void addSpecialMovement(int x, int y, Validity_Checker vc)
+    public void addSpecialMovement(int x, int y, Validity_Checker vc, Special_Action action)
     {
         //no duplicates!
-        if (!specialMovements.Contains((x, y, vc)))
+        if (!specialMovements.Contains((x, y, vc, action)))
         {
-            specialMovements.AddFirst((x, y, vc));
+            specialMovements.AddFirst((x, y, vc, action));
         }
     }
 
-    public void removeSpecialMovement(int x, int y, Validity_Checker vc)
+    public void removeSpecialMovement(int x, int y, Validity_Checker vc, Special_Action action)
     {
-        specialMovements.Remove((x, y, vc));
+        specialMovements.Remove((x, y, vc, action));
     }
 
     public void changeMovement(Unit target, Unit.Piece pieceType){ // Given a target piece and the desired type to change it to, this method switches what type it is.

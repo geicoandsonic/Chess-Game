@@ -18,7 +18,8 @@ public class Selection : MonoBehaviour
     private GameObject ghostTileSpecial;
     private GameObject ghostTileCheck;
     private LinkedList<GameObject> ghostTileList = new LinkedList<GameObject>();
-    public LinkedList<(ChessTile tile,int tileType)> movables = new LinkedList<(ChessTile tile, int tileType)>();
+    public LinkedList<(ChessTile tile,int tileType, GeneralMovement.Special_Action action)> movables = 
+        new LinkedList<(ChessTile tile, int tileType, GeneralMovement.Special_Action action)>();
     private bool whichTurnIsIt; //Check for which turn it is, so you can defeat pieces.
 
     // Start is called before the first frame update
@@ -79,7 +80,7 @@ public class Selection : MonoBehaviour
     {
         //if(occupant.getFaction() == Player Faction) will be used for checking if you have selected your own pieces
         if(gameManager.gameState == GameManager.GameState.PLAYERONETURN){
-            Debug.Log("Player One Turn");
+            //Debug.Log("Player One Turn");
             if (!gameManager.playerHasPiece)
             { // Player One currently does not have a piece selected
                 if(ct.occupant.GetComponent<Unit>().getFactionString() == "white"){
@@ -115,7 +116,7 @@ public class Selection : MonoBehaviour
                 }
                 else //different tile? select the new one
                 {
-                    Debug.Log("Switching pieces " + ct.getName());
+                    //Debug.Log("Switching pieces " + ct.getName());
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);
@@ -123,7 +124,7 @@ public class Selection : MonoBehaviour
             }
         }
         else if(gameManager.gameState == GameManager.GameState.PLAYERTWOTURN){
-            Debug.Log("Player Two Turn");
+            //Debug.Log("Player Two Turn");
             if (!gameManager.playerHasPiece)
             { // Player Two currently does not have a piece selected
                 if(ct.occupant.GetComponent<Unit>().getFactionString() == "black"){
@@ -156,7 +157,7 @@ public class Selection : MonoBehaviour
                 }
                 else //different tile? select the new one
                 {
-                    Debug.Log("Switching pieces " + ct.getName());
+                    //Debug.Log("Switching pieces " + ct.getName());
                     gameManager.playerPiece = ct.occupant.GetComponent<Unit>();
                     gameManager.selectedTile = ct;
                     makeGhostTiles(ct.occupant);

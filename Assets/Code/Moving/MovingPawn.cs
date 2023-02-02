@@ -7,6 +7,7 @@ public class MovingPawn : GeneralMovement
     [SerializeField] private bool isWhitePawn;
     [SerializeField] private bool justMoved2; //Boolean to check if the pawn moved 2 squares 
     public int strikingDistance = 1;
+    //private bool justCharged = false; //true until the next turn happens
     void Awake(){
         moveSetup();
     }
@@ -15,18 +16,18 @@ public class MovingPawn : GeneralMovement
     {
         if(isWhitePawn){
             addShortMovement(1, 0);
-            addSpecialMovement(2, 0, Validify_Charge);
-            addSpecialMovement(1,1, Validify_PawnAttackRight);
-            addSpecialMovement(1,-1, Validify_PawnAttackLeft);
+            addSpecialMovement(2, 0, Validify_Charge, Action_Charge);
+            addSpecialMovement(1,1, Validify_PawnAttackRight, null);
+            addSpecialMovement(1,-1, Validify_PawnAttackLeft, null);
             //addShortMovement(2,1); //Pawn has not moved yet, and enemy unit is in range
             //addShortMovement(2,-1); //not sure this is allowed tbh
             //add E.P here later, probably under a "special cases". We need to track the enemy's last turn movement.
         }
         else{
             addShortMovement(-1, 0);
-            addSpecialMovement(-2, 0, Validify_Charge);
-            addSpecialMovement(-1,1, Validify_PawnAttackRight);
-            addSpecialMovement(-1,-1, Validify_PawnAttackLeft);
+            addSpecialMovement(-2, 0, Validify_Charge, Action_Charge);
+            addSpecialMovement(-1,1, Validify_PawnAttackRight, null);
+            addSpecialMovement(-1,-1, Validify_PawnAttackLeft, null);
             //addShortMovement(-2,1); //Pawn has not moved yet, and enemy unit is in range
             //addShortMovement(-2,-1);
         }
@@ -35,10 +36,10 @@ public class MovingPawn : GeneralMovement
     public override void onMove()
     {
         if(isWhitePawn){
-            removeSpecialMovement(2, 0, Validify_Charge);
+            removeSpecialMovement(2, 0, Validify_Charge, Action_Charge);
         }
         else{
-            removeSpecialMovement(-2, 0, Validify_Charge);
+            removeSpecialMovement(-2, 0, Validify_Charge, Action_Charge);
         }
 
         listCleanup();
@@ -64,10 +65,10 @@ public class MovingPawn : GeneralMovement
     }
 
     //used for en passant rules
-    /*private void Action_Charge()
+    private void Action_Charge()
     {
-
-    }*/
+        Debug.Log("pawn has just charged!");
+    }
 
     //special movement - pawn can only attack diagonally 1 space ahead
     private bool Validify_PawnAttackLeft()

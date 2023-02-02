@@ -6,6 +6,8 @@ public class MovingKing : GeneralMovement
 {
     public bool hasMoved;
     public bool isInCheck;
+    private Unit castle; //used exclusively in castling
+
     void Awake()
     {
         moveSetup();
@@ -26,14 +28,14 @@ public class MovingKing : GeneralMovement
         //castling (TODO)
         // For castling, need to check if next piece is rook. On rook, need to check if next piece is king. On either, check between the two if there are
         //pieces. Need to make sure both the rook and king have not moved, so maybe keep a track of both rooks and kings initial position
-        addSpecialMovement(0,2, Validify_ShortCastle);
+        addSpecialMovement(0,2, Validify_ShortCastle, Action_ShortCastle);
         //addSpecialMovement(0,-2, Validify_Castle);
     }
 
     public override void onMove()
     {
         hasMoved = true;
-        removeSpecialMovement(0,2, Validify_ShortCastle);
+        removeSpecialMovement(0,2, Validify_ShortCastle, Action_ShortCastle);
         //removeSpecialMovement(0,-2, Validify_ShortCastle);
         listCleanup();
         //TODO: lose your ability to castle after first move
@@ -57,9 +59,12 @@ public class MovingKing : GeneralMovement
         if ((intermediate1 != null && board.newTileRelation(unit, intermediate1) == 0) &&
            (intermediate2 != null && board.newTileRelation(unit, intermediate2) == 0))
         {
+            //check that the piece in the corner is a friendly castle.
             //also check if the castle hasnt moved?
-            if(castleSpot.occupant != null && castleSpot.getOccupantName().Equals("WHITE ROOK"))
+            if(castleSpot.occupant != null && castleSpot.occupant.getPieceType() == Unit.Piece.ROOK &&
+                castleSpot.occupant.getFaction() == GetComponent<Unit>().getFaction())
             {
+                castle = castleSpot.occupant;
                 return true;
             }
             
@@ -70,8 +75,8 @@ public class MovingKing : GeneralMovement
     //moves the rook to its proper spot in castling as well.
     private void Action_ShortCastle()
     {
-        //ChessTile castleSpot = unit.getLocation().getTileRelativeToMe(0, 3);
-        //castleSpot.occupant
+        castle.overrideMovement(castle.getLocation().getTileRelativeToMe(0, -2));
+        Debug.Log("Attempted to move the castle");
     }
 
     private bool Validify_LongCastle()

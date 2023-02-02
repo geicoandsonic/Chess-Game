@@ -229,9 +229,9 @@ public class GeneralMovement: MonoBehaviour
                //check 2 things: the row/col are in bounds, and the path here isn't blocked
                 if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                 {
-                    if(board.newTileRelation(unit, board.board[tempRow, tempCol]) == -1){
+                    if(board.newTileRelation(unit, board.board[unit.getRow() + move.x, unit.getCol() + move.y]) == -1){
                         return -1;
-                    }                    
+                    }
                 }
             }           
         }
@@ -245,9 +245,17 @@ public class GeneralMovement: MonoBehaviour
                 //check 2 things: the row/col are in bounds, and the path here isn't blocked
                 if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
                 {
-                    if(board.newTileRelation(unit, board.board[tempRow, tempCol]) == -1){
+                    int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
+                    if(code == 1) //enemy tile. can move here but not past it
+                    {
+                        break;
+                    } else if(code == 2) //friendly tile. can't move here
+                    {
+                        break;
+                    } else if(code == -1) //Opposite king is now in check if moved here
+                    {
                         return -1;
-                    }                    
+                    }                  
                 }
                 else break;
             }
@@ -279,6 +287,7 @@ public class GeneralMovement: MonoBehaviour
         {
             GameObject white = GameObject.FindWithTag("whiteArmy");
             GameObject black = GameObject.FindWithTag("blackArmy");
+            unit.overrideMovement(destination);
             if(unit.getFaction() == Unit.Faction.WHITE){ //Current unit is white, check black pieces for check on white king
                 for(int i = 0; i < black.transform.childCount; i++){
                     if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
@@ -293,7 +302,6 @@ public class GeneralMovement: MonoBehaviour
                     }
                 }
             }
-            unit.overrideMovement(destination);
             onMove();
             return true;
         }

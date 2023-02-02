@@ -9,6 +9,8 @@ TagManager:
   - ghostTileEnemy
   - ghostTileSpecial
   - ghostTileCheck
+  - whiteArmy
+  - blackArmy
   layers:
   - Default
   - TransparentFX

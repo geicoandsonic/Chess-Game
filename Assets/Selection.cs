@@ -214,9 +214,6 @@ public class Selection : MonoBehaviour
                     //Debug.Log(chessTile.tileType);
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
                 }
-                else if(chessTile.tileType == -1){ //King in check
-                    addToGhostList(chessTile.tile.row, chessTile.tile.colNum,-1); //King in check
-                }
                 else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant == null){
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
                 }

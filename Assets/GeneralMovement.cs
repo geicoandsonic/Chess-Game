@@ -112,88 +112,6 @@ public class GeneralMovement: MonoBehaviour
         }
         if (enableSpecial)
         {
-            /*switch(unit.getPieceType()){
-                case Unit.Piece.PAWN:
-                    foreach (var move in specialMovements){
-                            int tempRow = unit.getRow() + move.x;
-                            int tempCol = unit.getCol() + move.y; //Start at unit col over to the right one, the middle, then left
-                            //check 2 things: the row/col are in bounds, and the path here isn't blocked
-                            if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
-                            {
-                                
-                                int code = board.newTileRelation(unit, board.board[tempRow, tempCol]);
-                                //empty tile. can move here and past it
-                                if(code == 0 || code == 1 || code == 3) //1, enemy tile. can move here but not past it, probably shouldn't happen for a pawn 3, special case, can attack
-                                {
-                                    addTileToLists(tempRow, tempCol,0);
-                                }                    
-                             }
-                            else break;
-                    }
-                    break;
-                case Unit.Piece.KING: //Castling, King's trigger castling
-                    foreach (var move in specialMovements){
-                        int tempRow = unit.getRow() + move.x;
-                        int tempCol = unit.getCol() + move.y;
-                        int code;
-                        bool castling = false;
-                        if(move.y == 2 || move.y == -2){
-                            castling = true;
-                        }
-                        //check 2 things: the row/col are in bounds, and the path here isn't blocked
-                        if (tempRow >= 0 && tempRow <= 7 && tempCol >= 0 && tempCol <= 7)
-                        {                             
-                           if(castling){ //Need to check that tiles between the target rook are empty
-                                if(move.y < 0){
-                                    for(int i = 1; i < 2; i++){
-                                        code = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
-                                        if(code != 0){
-                                            castling = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                                else if(move.y > 0){
-                                    for(int i = -1; i > -3; i--){
-                                        code = board.newTileRelation(unit, board.board[tempRow, (unit.getCol() + i)]);
-                                        if(code != 0){
-                                            castling = false;
-                                            break;
-                                        }
-                                    }
-                                }
-                                if(castling){ //Having passed the above two, there are no blocks between the king and rook.
-                                    if(move.y < 0){ //Going right
-                                        code = board.newTileRelation(unit, board.board[tempRow, unit.getCol() + 3]);
-                                        //empty tile. can move here and past it
-                                        if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
-                                        {
-                                            //unit.GetComponent<MovingKing>().castleRook = board.board[tempRow, unit.getCol() + 3].occupant.GetComponent<MovingRook>();
-                                            addTileToLists(tempRow, unit.getCol() + 2,2);
-                                        }
-                                    }
-                                    else if(move.y > 0){ //Going left
-                                        code = board.newTileRelation(unit, board.board[tempRow, unit.getCol() - 4]);
-                                        //empty tile. can move here and past it
-                                        if(code == 3) //3 is for castling, only valid if both king and rook have not moved. Both this unit and the other need to move at the same time
-                                        {
-                                            Debug.Log("Castle valid");
-                                            addTileToLists(tempRow, unit.getCol() - 2,2);
-                                        }
-                                    }
-                                    
-                                }
-                                
-                                
-                           }
-                                               
-                        }
-                        else break;
-                    }
-                    break;
-                default:
-                break;   
-                */
             foreach (var move in specialMovements)
             {
                 //CALL the validity checker associated with this movement. if true, then it could be valid
@@ -217,10 +135,10 @@ public class GeneralMovement: MonoBehaviour
         listCleanup();
         foreach (var move in shortMovements)
         {
-            //this is adding extra movement for pawn so the middle piece reports as an enemy.
+            //this is checking if pawn is looking at the king in front of it, it still cant kill unless its diagonal
             if(unit.getPieceType() == Unit.Piece.PAWN){
                 if(board.newTileRelation(unit, board.board[unit.getRow() + move.x, unit.getCol() + move.y]) == -1){
-                    return -1;
+                    return 0;
                 }
             }
             else{
@@ -285,19 +203,8 @@ public class GeneralMovement: MonoBehaviour
     {       
         if (validMove(movables, destination)) //was an else if
         {
-            GameObject white = GameObject.FindWithTag("whiteArmy");
-            GameObject black = GameObject.FindWithTag("blackArmy");
+            Debug.Log("Overriding movement");
             unit.overrideMovement(destination);
-            for(int i = 0; i < black.transform.childCount; i++){
-                if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
-                    Debug.Log("White King is in check by " + black.transform.GetChild(i).GetComponent<Unit>().getPieceType());
-                }
-            }
-            for(int i = 0; i < white.transform.childCount; i++){
-                if(white.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
-                    Debug.Log("Black King is in check by " + white.transform.GetChild(i).GetComponent<Unit>().getPieceType());
-                }
-            }
             onMove();
             return true;
         }
@@ -307,9 +214,33 @@ public class GeneralMovement: MonoBehaviour
     //basically a rewrite of the "contains" method.
     private bool validMove(LinkedList<(ChessTile tile, int tileType)> possible, ChessTile dest)
     {
+        bool valid = true;
         foreach(var possibleMove in possible){
             //Debug.Log(dest.getName());
-            if (possibleMove.tile.getName().Equals(dest.getName())) return true;
+            unit.fakeMovement(dest);
+            if(unit.getFaction() == Unit.Faction.WHITE){
+                GameObject black = GameObject.FindWithTag("blackArmy");
+                for(int i = 0; i < black.transform.childCount; i++){
+                    if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                        Debug.Log("White King is in check by " + black.transform.GetChild(i).GetComponent<Unit>().getPieceType());
+                        valid = false;
+                    }
+                }
+            }
+            else if(unit.getFaction() == Unit.Faction.BLACK){
+                GameObject white = GameObject.FindWithTag("whiteArmy");
+                for(int i = 0; i < white.transform.childCount; i++){
+                    if(white.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                        Debug.Log("Black King is in check by " + white.transform.GetChild(i).GetComponent<Unit>().getPieceType());
+                        valid = false;
+                    }
+                }
+            }
+            unit.resetPosition();
+            if (possibleMove.tile.getName().Equals(dest.getName()) && valid){
+                Debug.Log("Valid move");
+                return true;
+            }
         }
         return false;
     }

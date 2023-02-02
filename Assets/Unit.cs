@@ -13,7 +13,7 @@ public class Unit : MonoBehaviour
     //private int row, col;
     private Faction faction;
     public GeneralMovement movement;
-    public GameObject storeUnit; //Unit that is stored when checking if king is in check
+    public Unit storeUnit; //Unit that is stored when checking if king is in check
     public ChessTile prevLoc; //Chess tile stored for checking if king is in check;
     public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
@@ -130,6 +130,38 @@ public class Unit : MonoBehaviour
         location = destination;
         location.occupant = this;
         gameObject.transform.position = new Vector3(1.5f * location.row, 0, -1.5f * location.colNum);
+    }
+
+    public void fakeMovement(ChessTile destination){ //This fakes unit movement, which removes the unit from its current tile (now units can pass through), stores then kills the Unit
+    //on the destination tile (if there is one), and calculates if this movement will still put the king in check. If this is the case, the movement is illegal, and therefore
+    //will not be a move the player can make. Otherwise, if it is valid, the player can make if it they want. Either way, after this query has been made, the everything must be reset
+    //to before the player takes a move.
+        if(destination.occupant != null){ //Destination tile has a piece, so we must store it for later
+            Debug.Log("Destination occupant not null, storing");
+            storeUnit = destination.occupant;
+            destination.occupant = null; //Effectively clear its reference from the tile to move our unit there
+        }
+        prevLoc = location; //Storing the chesstile we just came from
+        Debug.Log("prevLoc " + prevLoc);
+        location.occupant = null; //Clearing the chesstile we are on of their occupant (i.e. our unit we are moving)
+        location = destination;
+        Debug.Log("New location " + location);
+        location.occupant = this; //We have now switched to the destination chesstile, and made our unit its occupant
+        Debug.Log("New occupant " + location.occupant);
+    }
+
+    public void resetPosition(){ //Called to reset our unit to its original position (i.e. before we take a move)
+        location.occupant = null; //Remove current location's occupant
+        if(storeUnit != null){
+            Debug.Log("Reseting stored unit");
+            location.occupant = storeUnit; // ChessTile we moved to now has its unit back
+            storeUnit = null; //reset for later
+        }       
+        location = prevLoc; //Moving back to original tile
+        Debug.Log("Reseting location " + location);
+        prevLoc = null;
+        location.occupant = this; //Our original tile now has this unit.
+        Debug.Log("Location occupant after reset " + location.occupant);
     }
     
 }

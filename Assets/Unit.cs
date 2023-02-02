@@ -14,7 +14,8 @@ public class Unit : MonoBehaviour
     private Faction faction;
     public GeneralMovement movement;
     public Unit storeUnit; //Unit that is stored when checking if king is in check
-    public ChessTile prevLoc; //Chess tile stored for checking if king is in check;
+    public ChessTile prevLoc; //Chess tile stored for checking if king is in check
+    public bool canMove = true; //Used to turn off movement when checking if king is in check
     public void SetUnit(Piece pieceT, ChessTile tile, Faction f)
     {
         pieceType = pieceT;
@@ -139,6 +140,7 @@ public class Unit : MonoBehaviour
         if(destination.occupant != null){ //Destination tile has a piece, so we must store it for later
             Debug.Log("Destination occupant not null, storing");
             storeUnit = destination.occupant;
+            storeUnit.canMove = false;
             destination.occupant = null; //Effectively clear its reference from the tile to move our unit there
         }
         prevLoc = location; //Storing the chesstile we just came from
@@ -154,6 +156,7 @@ public class Unit : MonoBehaviour
         location.occupant = null; //Remove current location's occupant
         if(storeUnit != null){
             Debug.Log("Reseting stored unit");
+            storeUnit.canMove = true;
             location.occupant = storeUnit; // ChessTile we moved to now has its unit back
             storeUnit = null; //reset for later
         }       

@@ -133,6 +133,7 @@ public class GeneralMovement: MonoBehaviour
     public int isKingInCheck()
     {
         listCleanup();
+        if(unit.canMove){
         foreach (var move in shortMovements)
         {
             //this is checking if pawn is looking at the king in front of it, it still cant kill unless its diagonal
@@ -194,6 +195,7 @@ public class GeneralMovement: MonoBehaviour
                     }
                 }
             }
+        }
         return 0;
     }
 

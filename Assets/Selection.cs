@@ -211,7 +211,7 @@ public class Selection : MonoBehaviour
         {
             if(gameManager.gameState == GameManager.GameState.PLAYERONETURN){ //White chess is playing, should not show valid move if its on white piece (UNLESS CASTLING)
                 if(chessTile.tileType == 2){
-                    Debug.Log(chessTile.tileType);
+                    //Debug.Log(chessTile.tileType);
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,2); //Special tile
                 }
                 else if(chessTile.tileType == -1){ //King in check
@@ -221,7 +221,7 @@ public class Selection : MonoBehaviour
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
                 }
                 else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "white"){
-                    Debug.Log("Looking at enemy for white");
+                    //Debug.Log("Looking at enemy for white");
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }
@@ -236,7 +236,7 @@ public class Selection : MonoBehaviour
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,0); //Number indicates its a blue ghost tile
                 }
                 else if(board.board[chessTile.tile.row,chessTile.tile.colNum].GetComponent<ChessTile>().occupant.GetComponent<Unit>().getFactionString() != "black"){
-                    Debug.Log("Looking at enemy for black");
+                    //Debug.Log("Looking at enemy for black");
                     addToGhostList(chessTile.tile.row, chessTile.tile.colNum,1); //Number indicates its a red ghost tile (for enemy)
                 }
             }

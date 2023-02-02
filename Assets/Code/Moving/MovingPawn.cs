@@ -81,6 +81,16 @@ public class MovingPawn : GeneralMovement
         {
             return true;
         }
+        else if(dest != null){
+            if(dest.occupant != null){
+                if(dest.occupant.getPieceType() == Unit.Piece.KING){
+                    if(board.newTileRelation(unit, dest) == -1){
+                        return true;
+                    }
+                }
+            }
+            
+        }
         return false;
     }
 
@@ -97,6 +107,16 @@ public class MovingPawn : GeneralMovement
         if (dest != null && board.newTileRelation(unit, dest) == 1)
         {
             return true;
+        }
+        else if(dest != null){
+            if(dest.occupant != null){
+                if(dest.occupant.getPieceType() == Unit.Piece.KING){
+                    if(board.newTileRelation(unit, dest) == -1){
+                        return true;
+                    }
+                }
+            }
+            
         }
         return false;
     }

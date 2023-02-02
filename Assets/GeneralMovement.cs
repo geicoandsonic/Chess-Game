@@ -288,18 +288,14 @@ public class GeneralMovement: MonoBehaviour
             GameObject white = GameObject.FindWithTag("whiteArmy");
             GameObject black = GameObject.FindWithTag("blackArmy");
             unit.overrideMovement(destination);
-            if(unit.getFaction() == Unit.Faction.WHITE){ //Current unit is white, check black pieces for check on white king
-                for(int i = 0; i < black.transform.childCount; i++){
-                    if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
-                        Debug.Log("White King is in check by " + black.transform.GetChild(i).GetComponent<Unit>().getPieceType());
-                    }
+            for(int i = 0; i < black.transform.childCount; i++){
+                if(black.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                    Debug.Log("White King is in check by " + black.transform.GetChild(i).GetComponent<Unit>().getPieceType());
                 }
             }
-            else if(unit.getFaction() == Unit.Faction.BLACK){ //Current unit is black, check white pieces for check on black king
-                for(int i = 0; i < white.transform.childCount; i++){
-                    if(white.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
-                        Debug.Log("Black King is in check by " + white.transform.GetChild(i).GetComponent<Unit>().getPieceType());
-                    }
+            for(int i = 0; i < white.transform.childCount; i++){
+                if(white.transform.GetChild(i).GetComponent<GeneralMovement>().isKingInCheck() == -1){ //Invalid movement since a piece will have a king in check
+                    Debug.Log("Black King is in check by " + white.transform.GetChild(i).GetComponent<Unit>().getPieceType());
                 }
             }
             onMove();
@@ -312,7 +308,7 @@ public class GeneralMovement: MonoBehaviour
     private bool validMove(LinkedList<(ChessTile tile, int tileType)> possible, ChessTile dest)
     {
         foreach(var possibleMove in possible){
-            Debug.Log(dest.getName());
+            //Debug.Log(dest.getName());
             if (possibleMove.tile.getName().Equals(dest.getName())) return true;
         }
         return false;

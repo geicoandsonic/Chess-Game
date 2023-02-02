@@ -39,7 +39,7 @@ public class ChessTile : MonoBehaviour
     // Check tile for what it is, if it has anything and give options on what to do.
     void OnMouseDown()
     {
-        Debug.Log("clicked " + getName());
+        //Debug.Log("clicked " + getName());
         if (occupant != null){//We have found a piece
             selector.selectPiece(this);
             
@@ -84,7 +84,7 @@ public class ChessTile : MonoBehaviour
         }
         else
         {
-            Debug.Log("Couldn't find chess tile!");
+            //Debug.Log("Couldn't find chess tile!");
             return null;
         }
     }

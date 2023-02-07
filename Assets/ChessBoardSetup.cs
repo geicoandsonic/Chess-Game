@@ -49,7 +49,7 @@ public class ChessBoardSetup : MonoBehaviour
 
 
     //STANDARD setup, can change with different gamemodes.
-    void initializePieces()
+    public void initializePieces()
     {
         //"armies" are just the empty container objects for each player       
         whiteArmy = new GameObject();
@@ -110,6 +110,16 @@ public class ChessBoardSetup : MonoBehaviour
         board[7, 3].occupant.SetUnit(Unit.Piece.QUEEN, board[7, 3], Unit.Faction.BLACK);
         board[7, 4].occupant = GameObject.Instantiate(templateKing).AddComponent<Unit>();
         board[7, 4].occupant.SetUnit(Unit.Piece.KING, board[7, 4], Unit.Faction.BLACK);
+    }
+
+    public void restart(){
+        if(whiteArmy != null){
+            Destroy(whiteArmy);
+        }
+        if(blackArmy != null){
+            Destroy(blackArmy);
+        }
+        initializePieces();
     }
 
     //used in movement scripts.

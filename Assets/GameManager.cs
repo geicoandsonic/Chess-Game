@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour
     private int turnCountInt = 1;
 
     public bool playerHasPiece;
+    public bool debug = false;
     public Unit playerPiece;
     public bool playerOneTurn; //True if white chess side is playing i.e. player one, false if black chess side is playing i.e. player two.
     public ChessTile selectedTile;
-    public enum GameState { DEFAULT,START,PLAYERONETURN,PLAYERTWOTURN,TIMEOUT,END}
+    public enum GameState { DEFAULT,START,PLAYERONETURN,PLAYERTWOTURN,TIMEOUT,END,DEBUG_MOVE,DEBUG_DELETE}
     public GameState gameState;
+    private GameState temp = GameState.DEFAULT;
     private GameState tempState;
 
     void Awake(){
@@ -22,6 +24,33 @@ public class GameManager : MonoBehaviour
         turnKeeper.text = "WHITE to play"; //change this as well
         turnKeeper.color = Color.white;
         playerHasPiece = false;
+    }
+
+    public void restart(){
+        turnCountInt = 1;
+        turnCounter.text = "Turn #1";
+        gameState = GameState.START;
+        gameState = GameState.PLAYERONETURN; //Should be start on scene start, but for now its just playeroneturn
+        turnKeeper.text = "WHITE to play"; //change this as well
+        turnKeeper.color = Color.white;
+        playerHasPiece = false;
+    }
+
+    public void setDebugGameState(){
+        if(temp != GameState.DEFAULT){
+            gameState = temp;
+            temp = GameState.DEFAULT;
+        }       
+    }
+
+    public void debugDelete(){
+        temp = gameState;
+        gameState = GameState.DEBUG_DELETE;
+    }
+
+    public void debugMove(){
+        temp = gameState;
+        gameState = GameState.DEBUG_MOVE;
     }
 
     // Update is called once per frame

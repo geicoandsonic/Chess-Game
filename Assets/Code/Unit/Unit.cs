@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public enum Piece { PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING }
+    public enum Piece { PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING, DEFAULT, DELETE } //Delete only used for map making purposes
     public enum Faction { WHITE, BLACK, REVOLUTION, UNDEAD }
 
     //fields to be changed

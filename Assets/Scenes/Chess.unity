@@ -174,6 +174,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &22903035
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -380,6 +381,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &59099052
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -493,6 +495,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &59167730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -861,6 +864,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &107251581
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -974,6 +978,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &113469855
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1087,6 +1092,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &118411869
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1720,6 +1726,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &258867485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1833,6 +1840,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &296617973
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1946,6 +1954,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &296976961
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2152,6 +2161,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &308156989
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2265,6 +2275,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &344406613
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2650,6 +2661,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &405396776
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2763,6 +2775,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &408402881
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2877,6 +2890,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &431311565
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2990,6 +3004,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &437754835
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3236,6 +3251,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &441648940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3472,6 +3488,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &469593107
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3728,6 +3745,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &483908111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4050,6 +4068,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &506564490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4163,6 +4182,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &511948770
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4314,6 +4334,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &515179665
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4595,6 +4616,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &571471895
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4853,6 +4875,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &584272928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5080,6 +5103,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &629756917
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5193,6 +5217,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &633165039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5440,6 +5465,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &665197723
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5651,7 +5677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &689218456
 Transform:
   m_ObjectHideFlags: 0
@@ -5686,9 +5712,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b60cf45c00ee3de4e9e38d5dbbc0e468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selector: {fileID: 0}
   basePieces: {fileID: 1528678693}
+  mapCreator: {fileID: 0}
   whiteCol: {fileID: 2100000, guid: 4dc84c21711fc15469eb2acbb2cfbe9f, type: 2}
   blackCol: {fileID: 2100000, guid: 0b811b765ac6d244b830362639ac8778, type: 2}
+  mapCreating: 0
+  selectedPiece: 0
+  selectedFaction: 0
+  instance: {fileID: 0}
 --- !u!1 &700094457
 GameObject:
   m_ObjectHideFlags: 0
@@ -5740,6 +5772,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &700094460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6139,6 +6172,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &725221168
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6464,6 +6498,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &745409278
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6577,6 +6612,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &751297047
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6690,6 +6726,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &754324146
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6803,6 +6840,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &758269209
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6916,6 +6954,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &775925307
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7029,6 +7068,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &815212325
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7142,6 +7182,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &818846783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7255,6 +7296,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &822174506
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7369,6 +7411,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &833939701
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7865,6 +7908,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &885517083
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7978,6 +8022,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &893219445
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8238,6 +8283,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &965739840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8487,6 +8533,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1015816502
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8600,6 +8647,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1021442381
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8713,6 +8761,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1034973729
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8897,6 +8946,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1055117189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9670,6 +9720,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1171639832
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9784,6 +9835,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1198981578
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9972,6 +10024,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1235313906
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10219,6 +10272,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1248705326
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10332,6 +10386,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1252672176
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10445,6 +10500,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1256257040
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10786,6 +10842,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1412323142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10899,6 +10956,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1414302945
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11012,6 +11070,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1428837160
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11125,6 +11184,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1433924588
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11478,6 +11538,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1491284481
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11821,6 +11882,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1506104558
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11934,6 +11996,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1524829648
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12441,6 +12504,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1585568754
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12584,6 +12648,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1706380802
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12697,6 +12762,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1722170194
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13421,6 +13487,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1820446303
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13668,6 +13735,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1860907532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13956,6 +14024,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1919496411
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14224,6 +14293,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &1970552183
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14337,6 +14407,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &2005489936
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14451,6 +14522,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &2016240318
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15145,6 +15217,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &2077649153
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15389,6 +15462,7 @@ MonoBehaviour:
   colNum: 0
   white: 0
   occupant: {fileID: 0}
+  selector: {fileID: 0}
 --- !u!65 &2122216000
 BoxCollider:
   m_ObjectHideFlags: 0

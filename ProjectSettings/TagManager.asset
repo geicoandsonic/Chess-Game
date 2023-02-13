@@ -11,6 +11,7 @@ TagManager:
   - ghostTileCheck
   - whiteArmy
   - blackArmy
+  - DontDestroyOnLoad
   layers:
   - Default
   - TransparentFX

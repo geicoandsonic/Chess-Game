@@ -25,6 +25,7 @@ public class Selection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Need to change this based on if the player has made a different board or not. If so, get the board from the game manager
         board = FindObjectOfType<ChessBoardSetup>();
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }

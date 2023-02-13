@@ -13,7 +13,7 @@ public class ChessTile : MonoBehaviour
     private GameManager gameManager;
     Material objMaterial;
     ChessBoardSetup board;
-    Selection selector;
+    public Selection selector;
 
 
     void Start()
@@ -27,21 +27,34 @@ public class ChessTile : MonoBehaviour
         gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
-    void OnMouseOver()
+    void OnLevelWasLoaded(int level){
+        if(level == 1){ //Chess Scene
+            selector = FindObjectOfType<Selection>();
+        }
+    }
+
+    /*void OnMouseOver()
     {
         selector.setSelectorPosition(this);
     }
     void OnMouseExit()
     {
         selector.resetSelectorPosition();
-    }
+    }*/
 
     // Check tile for what it is, if it has anything and give options on what to do.
     void OnMouseDown()
     {
-        if(gameManager.gameState != GameManager.GameState.DEBUG_DELETE && gameManager.gameState != GameManager.GameState.DEBUG_MOVE){ //Basically if game state isnt in debug mode
+        if(board.mapCreating){
+            if(occupant != null){
+                Destroy(occupant.gameObject);
+                occupant = null;
+            }
+            board.mapCreator.updateMap(row,colNum);
+        }
+        else if(gameManager.gameState != GameManager.GameState.DEBUG_DELETE && gameManager.gameState != GameManager.GameState.DEBUG_MOVE){ //Basically if game state isnt in debug mode
             if (occupant != null){//We have found a piece
-            selector.selectPiece(this);           
+                selector.selectPiece(this);           
             }
             else{ //Tile is empty
                 selector.emptySelection(this);

@@ -7,12 +7,36 @@ public class ChessBoardSetup : MonoBehaviour
     public ChessTile[,] board;
     private GameObject gameObjectBoard;
 
+    public Selection selector;
     public GameObject basePieces;
+    public MapCreator mapCreator;
     public static GameObject whiteArmy, blackArmy;
     public static Material whiteColor, blackColor;
     public Material whiteCol, blackCol;
+    public bool mapCreating = false;
+    GameObject templatePawnWhite;
+    GameObject templatePawnBlack;
+    GameObject templateKnight;
+    GameObject templateBishop;
+    GameObject templateRook;
+    GameObject templateQueen;
+    GameObject templateKing;
+    //Below used for map creation
+    public Unit.Piece selectedPiece = Unit.Piece.PAWN;
+    public Unit.Faction selectedFaction = Unit.Faction.WHITE;
+    public ChessBoardSetup instance;
 
     // Start is called before the first frame update
+    void Awake(){
+        if(instance != null && instance != this){
+            Debug.Log("Chess Board Already Exists, Deleting Default");
+            Destroy(gameObject);
+        }
+        else{
+            instance = this;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
         whiteColor = whiteCol;
@@ -46,7 +70,10 @@ public class ChessBoardSetup : MonoBehaviour
         initializePieces();
     }
 
-
+    public void DontDestroy(){
+        DontDestroyOnLoad(whiteArmy);
+        DontDestroyOnLoad(blackArmy);
+    }
 
     //STANDARD setup, can change with different gamemodes.
     public void initializePieces()
@@ -60,13 +87,13 @@ public class ChessBoardSetup : MonoBehaviour
         blackArmy.tag = "blackArmy";
 
         //in setup phase, just copy a "template" of each piece.
-        GameObject templatePawnWhite = basePieces.transform.GetChild(0).gameObject;
-        GameObject templatePawnBlack = basePieces.transform.GetChild(1).gameObject;
-        GameObject templateKnight = basePieces.transform.GetChild(2).gameObject;
-        GameObject templateBishop = basePieces.transform.GetChild(3).gameObject;
-        GameObject templateRook = basePieces.transform.GetChild(4).gameObject;
-        GameObject templateQueen = basePieces.transform.GetChild(5).gameObject;
-        GameObject templateKing = basePieces.transform.GetChild(6).gameObject;
+        templatePawnWhite = basePieces.transform.GetChild(0).gameObject;
+        templatePawnBlack = basePieces.transform.GetChild(1).gameObject;
+        templateKnight = basePieces.transform.GetChild(2).gameObject;
+        templateBishop = basePieces.transform.GetChild(3).gameObject;
+        templateRook = basePieces.transform.GetChild(4).gameObject;
+        templateQueen = basePieces.transform.GetChild(5).gameObject;
+        templateKing = basePieces.transform.GetChild(6).gameObject;
 
         //instantiate pawns
         for (int j=0; j<8; j++)
@@ -110,6 +137,55 @@ public class ChessBoardSetup : MonoBehaviour
         board[7, 3].occupant.SetUnit(Unit.Piece.QUEEN, board[7, 3], Unit.Faction.BLACK);
         board[7, 4].occupant = GameObject.Instantiate(templateKing).AddComponent<Unit>();
         board[7, 4].occupant.SetUnit(Unit.Piece.KING, board[7, 4], Unit.Faction.BLACK);
+    }
+
+    public void initializePieces(bool manual){
+
+    }
+
+    public void placePiece(int row, int col){ //Used for custom gamemodes       
+        switch(selectedPiece)
+        {
+            case (Unit.Piece.PAWN):
+                if(selectedFaction == Unit.Faction.WHITE){
+                    board[row, col].occupant = GameObject.Instantiate(templatePawnWhite).AddComponent<Unit>();
+                    board[row, col].occupant.SetUnit(selectedPiece, board[row, col], selectedFaction);                   
+                }
+                else{
+                    board[row, col].occupant = GameObject.Instantiate(templatePawnBlack).AddComponent<Unit>();
+                    board[row, col].occupant.SetUnit(selectedPiece, board[row, col], selectedFaction);                   
+                }
+                break;
+            case (Unit.Piece.KNIGHT):
+                board[row, col].occupant = GameObject.Instantiate(templateKnight).AddComponent<Unit>();
+                board[row, col].occupant.SetUnit(Unit.Piece.KNIGHT, board[row, col], selectedFaction);
+                break;
+            case (Unit.Piece.BISHOP):
+                board[row, col].occupant = GameObject.Instantiate(templateBishop).AddComponent<Unit>();
+                board[row, col].occupant.SetUnit(Unit.Piece.BISHOP, board[row, col], selectedFaction);
+                break;
+            case (Unit.Piece.ROOK):
+                board[row, col].occupant = GameObject.Instantiate(templateRook).AddComponent<Unit>();
+                board[row, col].occupant.SetUnit(Unit.Piece.ROOK, board[row, col], selectedFaction);
+                break;
+            case (Unit.Piece.QUEEN):
+                board[row, col].occupant = GameObject.Instantiate(templateQueen).AddComponent<Unit>();
+                board[row, col].occupant.SetUnit(Unit.Piece.QUEEN, board[row, col], selectedFaction);
+                break;
+            case (Unit.Piece.KING):
+                board[row, col].occupant = GameObject.Instantiate(templateKing).AddComponent<Unit>();
+                board[row, col].occupant.SetUnit(Unit.Piece.KING, board[row, col], selectedFaction);
+                break;
+            case (Unit.Piece.DELETE): //Used to delete units
+                if(board[row, col].occupant != null){
+                    Destroy(board[row,col].occupant.gameObject);
+                    board[row,col].occupant = null;
+                }
+                break;
+            case (Unit.Piece.DEFAULT):
+                //Do nothing
+                break;
+        }
     }
 
     public void restart(){
